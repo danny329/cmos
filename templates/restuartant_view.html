@@ -1,0 +1,149 @@
+{% load static %}
+{% static "images" as baseUrl %}
+{% include 'com.html' %}
+{% include 'navbar.html' %}
+<style>
+#navbar {
+  overflow: hidden;
+  z-index:3;
+
+}
+#image{
+
+-webkit-transition-property: width, height; /* Safari */
+  -webkit-transition-duration: 0.2s; /* Safari */
+  transition-property: width, height;
+  transition-duration: 0.2s;
+
+}
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+#catfix{
+ -webkit-transition-property: top; /* Safari */
+  -webkit-transition-duration: 0.2s; /* Safari */
+  transition-property: top;
+  transition-duration: 0.2s;
+}
+#cartfix{
+ -webkit-transition-property: top; /* Safari */
+  -webkit-transition-duration: 0.2s; /* Safari */
+  transition-property: top;
+  transition-duration: 0.2s;
+}
+#menulist{
+ -webkit-transition-property: top; /* Safari */
+  -webkit-transition-duration: 2s; /* Safari */
+  transition-property: top;
+  transition-duration: 2s;
+  margin-bottom:250px;
+
+}
+.catfix{
+  position: fixed;
+  top: 290;
+  z-index:2;
+  display:block;
+  width: 100%;
+  height:70%;
+  overflow: scroll;
+  seamless=seamless;
+
+}
+.cartfix{
+  position: fixed;
+  top: 290;
+  right:10px;
+  z-index:2;
+  display:block;
+  width: 100%;
+
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px grey;
+  border-radius: 1px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: red;
+  border-radius: 1px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #b30000;
+}
+
+</style>
+<div class="jumbotron mx-auto bg-light" id="navbar" style="padding:15px;">
+
+    <div class="row">
+        <div class="col-sm-3  ">
+            <img src="{{shop.shop_image.url}}"  id="image" alt="img content" style="width:16rem;height:10rem;padding-left:50px;">
+        </div>
+        <div class="col-sm-9 " >
+            <h2>{{shop.shop_name}}</h2>
+            <h6>{{shop.shop_description}}</h6>
+        </div>
+
+    </div>
+</div>
+<section class="row" style="width:100%">
+    <!--  category available for restuartant  -->
+
+    <div class="col-3  catfix" id="catfix">
+       {% include 'categorylist.html'%}
+    </div>
+    <div class="col-5 " id="menulist" style="margin-left:335px;">
+        <div class="row">
+             {% include 'menu.html'%}
+        </div>
+
+    </div>
+    <div class="col-4 cartfix bg-light mx-auto" id="cartfix"> {% include 'minicart.html'%}</div>
+
+</section>
+{% include 'footer.html' %}
+<script>
+
+window.onscroll = function() {myFunction()};
+
+
+var navbar = document.getElementById("navbar");
+
+
+var sticky = navbar.offsetTop;
+
+
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  } else {
+    navbar.classList.remove("sticky");
+  }
+   if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+    document.getElementById("image").style.height = "6rem";
+    document.getElementById("image").style.width = "12rem";
+    document.getElementById("catfix").style.top = "180";
+    document.getElementById("cartfix").style.top = "180";
+
+
+  } else {
+    document.getElementById("image").style.height = "10rem";
+    document.getElementById("image").style.width = "16rem";
+    document.getElementById("catfix").style.top = "290";
+    document.getElementById("cartfix").style.top = "290";
+
+  }
+}
+</script>

@@ -1,0 +1,97 @@
+{% load static %}
+{% static "images" as baseUrl %}`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'css/register_style.css'%}">
+
+</head>
+<body>
+
+    <div class="main">
+
+        <!-- Sign up form -->
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <form method="POST" class="register-form" action="/users/register_verify" id="register-form">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="name"><img src="https://img.icons8.com/ios-glyphs/20/000000/user--v1.png"></label>
+                                <input type="text" name="fullname" id="name" placeholder="Full Name"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="username"><img src="https://img.icons8.com/material-outlined/20/000000/user--v1.png"></label>
+                                <input type="text" name="username" id="username" placeholder="User Name OR Roll No:"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><img src="https://img.icons8.com/material-sharp/16/000000/email.png"></i></label>
+                                <input type="email" name="email" id="email" placeholder="Your Email"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="pass"><img src="https://img.icons8.com/material/16/000000/password--v3.png"></label>
+                                <input type="password" name="password1" id="pass" placeholder="Password"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="re_pass"><img src="https://img.icons8.com/material-outlined/16/000000/password.png"></label>
+                                <input type="password" name="password2" id="re_pass" placeholder="Repeat your password"/>
+                            </div>
+                            <div class="form-group" style="margin: auto;text-align:justify;">
+                                 <label for="gender"><img src="https://img.icons8.com/cotton/20/000000/gender.png"></label>
+                                <select name="gender" id="" style="width: 50%;display: block;border: none;border-bottom: 1px solid #999;padding: 6px 30px;font-family: Poppins;box-sizing: border-box;" id="gender" class="form-control">
+                                    <option value="" disabled selected>gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+
+                                </select>
+                            </div>
+                             <div class="form-group" style="text-align:justify; margin-top:-29px;margin-left:150px;">
+                                 <label for="types"> <img src="https://img.icons8.com/ios-glyphs/16/000000/change-user-male.png"></label>
+                                <select name="user_type" id="" style="width: 100%;display: block;border: none;border-bottom: 1px solid #999;padding: 6px 20px;font-family: Poppins;box-sizing: border-box;" id="types" class="form-control">
+                                    <option value="" disabled selected> user type</option>
+                                    {% for type in userg %}
+
+                                     <option value="{{type.name}}" class="text-primary">{{type.name}}</option>
+                                    {% endfor %}
+
+
+                                </select>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+
+                            </div>
+
+
+
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="{% static 'images/signup-image.jpg'%}" alt="sing up image"></figure>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+    </div>
+
+    <!-- JS -->
+    <script src="{% static 'vendor/jquery/jquery.min.js'%}"></script>
+    <script src="{% static 'js/register_main.js'%}"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

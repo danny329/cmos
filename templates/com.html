@@ -1,7 +1,5 @@
 {% load static %}
 {% static "images" as baseUrl %}
-<!DOCTYPE html>
-<html lang="en">
 <head>
 <title>The Venue</title>
 <meta charset="utf-8">
@@ -20,89 +18,9 @@
 <link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css'%}">
 </head>
 <body>
-<div class="super_container">
-
-	<!-- Header -->
-
-	<header class="header">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="header_content d-flex flex-row align-items-center justify-content-start">
-						<div class="logo">
-							<a href="#">
-								<div>The Venue</div>
-								<div>restaurant</div>
-							</a>
-						</div>
-						<nav class="main_nav">
-							<ul class="d-flex flex-row align-items-center justify-content-start">
-								<li><a href="index.html">home</a></li>
-								<li><a href="about.html">about us</a></li>
-								<li><a href="menu.html">menu</a></li>
-								<li><a href="#">delivery</a></li>
-								<li><a href="blog.html">blog</a></li>
-								<li><a href="contact.html">contact</a></li>
-							</ul>
-						</nav>
-						<div class="reservations_phone ml-auto">Reservations: +34 586 778 8892</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</header>
-</div>
-{% block content %}
-{% endblock %}
-	<footer class="footer">
-		<div class="container">
-			<div class="row">
-
-				<!-- Footer Logo -->
-				<div class="col-lg-3 footer_col">
-					<div class="footer_logo">
-						<div class="footer_logo_title">The Venue</div>
-						<div class="footer_logo_subtitle">restaurant</div>
-					</div>
-					<div class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-<p style="line-height: 1.2;">Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
-				</div>
-
-				<!-- Footer About -->
-				<div class="col-lg-6 footer_col">
-					<div class="footer_about">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. Ut non justo eleifend, facilisis nibh ut, interdum odio.</p>
-					</div>
-				</div>
-
-				<!-- Footer Contact -->
-				<div class="col-lg-3 footer_col">
-					<div class="footer_contact">
-						<ul>
-							<li class="d-flex flex-row align-items-start justify-content-start">
-								<div><div class="footer_contact_title">Address:</div></div>
-								<div class="footer_contact_text">481 Creekside Lane Avila CA 93424</div>
-							</li>
-							<li class="d-flex flex-row align-items-start justify-content-start">
-								<div><div class="footer_contact_title">Address:</div></div>
-								<div class="footer_contact_text">+53 345 7953 32453</div>
-							</li>
-							<li class="d-flex flex-row align-items-start justify-content-start">
-								<div><div class="footer_contact_title">Address:</div></div>
-								<div class="footer_contact_text">yourmail@gmail</div>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
-
-
-<script src="{% static 'js/jquery-3.2.1.min.js'%}"></script>
-<script src="{% static 'styles/bootstrap-4.1.2/popper.js'%}"></script>
-<script src="{% static 'styles/bootstrap-4.1.2/bootstrap.min.js'%}"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="{% static 'plugins/greensock/TweenMax.min.js'%}"></script>
 <script src="{% static 'plugins/greensock/TimelineMax.min.js'%}"></script>
 <script src="{% static 'plugins/scrollmagic/ScrollMagic.min.js'%}"></script>
@@ -116,4 +34,3 @@
 <script src="{% static 'plugins/jquery-timepicker/jquery.timepicker.js'%}"></script>
 <script src="{% static 'js/custom.js'%}"></script>
 </body>
-</html>

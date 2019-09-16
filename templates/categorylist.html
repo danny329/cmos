@@ -1,0 +1,25 @@
+
+<style>
+#category_a{
+    color : #000;
+    overflow: hidden;
+    z-index:2;
+}
+#category_a:hover{
+    color : #fc8403;
+    border :1px solid #fc8403;
+    border-width: 0px 1px 0px 0px;
+}
+
+</style>
+        {% for list in category %}
+        <ul class="list-group">
+                <li class="p-1 text-right" id="category_name">
+                    <a href="#{{list.item_food_category}}" id="category_a"  class="pr-5"><h4 style="display:inline;">{{list.item_food_category}}</h4> </a>
+                </li>
+        </ul>
+
+        {% empty %}
+        <p>comment of empty</p>
+        {% endfor %}
+

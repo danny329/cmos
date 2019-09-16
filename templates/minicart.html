@@ -1,0 +1,38 @@
+{% load static %}
+{% static "images" as baseUrl %}
+<div><h2 class="text-center">CART</h2></div>
+{% for order in ordertable %}
+<div class="row ">
+    <div class="col-sm-1 "><img style="width:25px;height:25px;padding:1px;margin-left:-200%;margin-top:2%;" src="{{order.menu.item_vegornonveg.image.url}}" alt="Card image cap"></div>
+    <div class="col-sm-5 " style="padding-left:0px;">{{order.menu.item_name}}</div>
+    <div class="col-sm-3 " style="padding: 0px 0px 10px 0px;" >
+
+                <div class="row w-100 " style="margin-left:0px;">
+                    <div class="col-4 border border-right-0" style="padding-left:3px;">
+                        <form action="/menu/restuartant_view/{{shop.pk}}/" method="post">{% csrf_token%}
+                            <input type="hidden"  name="quantity_minus" value="{{order.pk}}">
+                            <button type="submit"  class="btn btn-link "  style="margin-left:0px;padding:0px;width:25px;height:25px;background:none; ">
+                                <img name="minus" style="margin:0px; width:25px height:25px;" src="{% static 'images/icons/minus.svg'%}">
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-4 border border-right-0 border-left-0" style="margin-left:0%; padding-left:9px">{{order.order_quantity}}</div>
+                    <div class="col-4 border border-left-0" style="padding-left:3px;">
+                           <form action="/menu/restuartant_view/{{shop.pk}}/" method="post">{% csrf_token%}
+                                <input type="hidden" name="quantity_plus" value="{{order.pk}}">
+                        <button type="submit" name="" class="btn btn-link border border-0" value="{{order.pk}}" style="padding:0px; width:25px;height:25px;background: none;">
+                            <img name="add" class="" style="margin:0px; width:25px height:25px;" src="{% static 'images/icons/plus.svg'%}">
+                        </button>
+                                 </form>
+                    </div>
+               </div>
+    </div>
+    <div class="col-sm-3 ">{{order.order_price}}</div>
+</div>
+<div class="row"><h4>Subtotal</h4></div>
+{% empty %}
+<div class="container mx-auto text-center">
+<img width="300px" height="300px" src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_480/Cart_empty_-_menu_2x_ejjkf2">
+    <h6 class="">cart empty</h6>
+</div>
+{% endfor %}

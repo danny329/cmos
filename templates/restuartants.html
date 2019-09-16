@@ -1,0 +1,52 @@
+{% load static %}
+{% static "images" as baseUrl %}
+{% include 'com.html' %}
+{% include 'navbar.html' %}
+   <style>
+       .shop_radio{
+            transform: scale(1.8);
+            width:140px;
+            margin-left:55px;
+            height:245px;
+            position:absolute;
+            z-index: 1;
+            opacity: 0.0;
+
+       }
+       .shop_radio:hover
+       {
+            border:0.5px solid red;
+       }
+
+
+    </style>
+<section class="p-3">
+
+	{% for shop in shops %}
+	  <form method="post" name="form1" action="/menu/restuartant_view/{{shop.pk}}/">{% csrf_token%}
+	<div class="card border border " id="card" style="width: 16rem;">
+        <input class="shop_radio  border"  type='radio'  value='{{shop.pk}}' name='shop_select' id="radio1" />
+		<img class="card-img-top" style="width:16rem;height:10rem;" src="{{shop.shop_image.url}}" alt="Card image cap">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-sm-12" style="padding-left:1px; "><h5 style="display:inline;">{{shop.shop_name}}</h5></div>
+			    <div class="col-sm-12" style="padding-left:1.5px;"><h6 style="display:inline;">{{shop.shop_description}}</h6></div>
+            </div>
+	  </div>
+	</div>
+		  </form>
+	{% empty %}
+		<p class="mx-auto text-center">Sorry, no selection to display.</p>
+	{% endfor %}
+
+</section>
+{% include 'footer.html' %}
+ <script type='text/javascript'>
+
+ $(document).ready(function() {
+   $('input[name=shop_select]').change(function(){
+        $('form[name=form1]').submit();
+   });
+  });
+
+</script>

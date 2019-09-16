@@ -1,0 +1,57 @@
+{% load static %}
+{% static "images" as baseUrl %}
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<header class="main_menu home_menu bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <div class="logo ">
+							<a class="navbar-brand" href="index.html">
+								<div class="text-dark">CMOS</div>
+								<div class="text-dark">Canteen Management and Ordering System</div>
+							</a>
+						</div>
+
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div class=" collapse navbar-collapse main-menu-item justify-content-end"
+                            id="navbarSupportedContent">
+                            <ul class="navbar-nav mx-auto row ">
+                                <li class="nav-item active col-sm-2">
+                                    <a class="nav-link ml-3" href="/"><img style="margin-top:-6px;" src="https://img.icons8.com/small/18/000000/home.png"> &nbsp;<h5 style="display:inline;">HOME</h5></a>
+                                </li>
+                                <li class="nav-item col-sm-2">
+                                    <a class="nav-link mr-4" href="about.html"><img style="margin-top:-6px;" src="https://img.icons8.com/material-outlined/18/000000/about.png">&nbsp;<h5 style="display:inline;">ABOUT</h5></a>
+                                </li>
+                                <li class="nav-item col-sm-2">
+                                    <a class="nav-link mr-4" href="about.html"><img style="margin-top:-6px;" src="https://img.icons8.com/windows/21/000000/help.png">&nbsp;<h5 style="display:inline;">HELP</h5></a>
+                                </li>
+                                <li class="nav-item col-sm-2">
+                                    <a class="nav-link mr-4" href="/selection/select/"><img style="margin-top:-6px;" src="https://img.icons8.com/ios/18/000000/discount.png">&nbsp;<h5 style="display:inline;">OFFERS</h5></a>
+                                </li>
+                                 {% if user.is_authenticated %}
+                                <li class="nav-item col-sm-2">
+                                    <a class="nav-link mr-4" style="text-transform: uppercase;" href="/users/logout"><h5 style="display:inline;">{{user.username}},&nbsp;LOGOUT</h5></a>
+                                </li>
+                                {% else %}
+                                <li class="nav-item col-sm-2">
+                                    <a class="nav-link mr-4" href="/users/login"><img style="margin-top:-6px;" src="https://img.icons8.com/ios/15/000000/enter-2.png">&nbsp;<h5 style="display:inline;">SIGN IN</h5> </a>
+                                </li>
+                                {% endif %}
+                                <li class="nav-item text-right col-sm-2">
+                                    <a class="nav-link ml-5" href="/selection/select/"><img style="margin-top:-6px;margin-left:100px;" src="https://img.icons8.com/dotty/21/000000/shopping-basket-2.png">&nbsp;<h5 style="display:inline;">CART</h5></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>

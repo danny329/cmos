@@ -352,16 +352,16 @@ section
 }
 .logo a > div:first-child
 {
-	font-size: 36px;
+	font-size: 40px;
 	line-height: 0.75;
 	color: #FFFFFF;
 }
 .logo a > div:last-child
 {
-	font-size: 12px;
+	font-size: 5px;
 	text-transform: uppercase;
 	color: #FFFFFF;
-	letter-spacing: 0.680em;
+	letter-spacing: 0.00em;
 	line-height: 0.75;
 	margin-top: 12px;
 }
