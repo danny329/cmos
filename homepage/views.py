@@ -4,3 +4,6 @@ from django.shortcuts import render
 
 def index(request):
     return render(request, 'index.html')
+
+def vendor_home(request):
+    return render(request,'vendor_home.html')

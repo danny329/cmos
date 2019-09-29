@@ -3,8 +3,8 @@
 #hoverbar{
 visibility:hidden;
 position:absolute;
-margin-top:100px;
-width:15.9rem;
+margin-top:0px;
+width:22rem;
 opacity:0.9;
 }
 
@@ -13,20 +13,24 @@ opacity:0.9;
 
 }
 
+.card:hover{
+	border: 1px solid grey;
+}
+
 </style>
 {% for list in category %}
 <div class="col-sm-12 " id="{{list.item_food_category}}"><h1> <b>{{list.item_food_category}}</b></h1></div>
 <div class="mt-5 pt-5 pb-5"></div>
 	{% for menu in menus %}
 	{% if menu.item_food_category == list.item_food_category %}
-	<div class="col-sm-6">
-		<div class=" card border border-0 mr-2 mb-2" id="card" style="width: 16rem;">
-		<img class="card-img-top" id="imagefh" style="width:16rem;height:10rem;" src="{{menu.item_image.url}}" alt="Card image cap">
+	<div class="col-sm-4  border border-0">
+		<div class="card mx-auto  mt-3 mb-3" id="card" style="width: 22rem; ">
+		<img class="card-img-top" id="imagefh" style="width:21.8rem;height:15rem;" src="{{menu.item_image.url}}" alt="Card image cap">
 		<div class="bg-dark p-3" id="hoverbar"><h6 class="text-light">{{menu.item_desc}}</h6></div>
 		<div class="card-body">
 			<div class="row">
-				<div class="col-sm-1" style="height:25px; padding-left:0px; padding-top:3px;  "><img style="width:25px;height:25px;" src="{{menu.item_vegornonveg.image.url}}" alt="Card image cap"></div>
-				<div class="col-sm-11 " style="padding-left:10px; "><h4 style="display:inline;">{{menu.item_name}}</h4></div>
+				<div class="col-sm-1 ml-1" style="height:25px; padding-left:0px; padding-top:0px;  "><img style="width:25px;height:25px;" src="{{menu.item_vegornonveg.image.url}}" alt="Card image cap"></div>
+				<div class="col-sm-10 " style="padding-left:10px; "><h4 style="display:inline;">{{menu.item_name}}</h4></div>
 			</div>
 
 			<div class="col-sm-12" style="padding-left:17px;"><h6 style="display:inline;">{{menu.item_food_category}}</h6></div>
@@ -35,7 +39,7 @@ opacity:0.9;
 				<div class="col-sm-4 ">
 					<form method="post" action="/menu/restuartant_view/{{shop.pk}}/">{% csrf_token %}
 						<input type="hidden" name="menu_item_pk" value="{{menu.pk}}" >
-						<button type="submit" class="btn btn-light border">ADD</button>
+						<button type="submit" class="btn-sm btn-primary border">ADD</button>
 					</form>
 				</div>
 			</div>
@@ -44,7 +48,8 @@ opacity:0.9;
 	</div>
 	</div>
 	{% endif %}
-	{% empty %}
-		<p class="mx-auto text-center">Sorry, no selection to display.</p>
+
 	{% endfor %}
+{% empty %}
+		<p class="mx-auto text-center">Sorry, no selection to display.</p>
 {% endfor %}

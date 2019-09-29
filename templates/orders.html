@@ -1,0 +1,67 @@
+{% load static %}
+{% static "images" as baseUrl %}
+{% include 'com.html' %}
+{% include 'navbar.html' %}
+
+<div class="container border mt-3 mx-auto ">
+     {% for orders in orderhistory %}
+
+    {% for items in ordertracking %}
+     {% for relation in orderanditem %}
+
+    {% if relation.ordernum.pk == orders.pk and relation.orderitemnum.pk == items.pk %}
+
+    <p class="text-center">order number : {{orders.pk}}</p>
+    <div class="col-sm-4 mb-3 mx-auto ">
+
+        <div class="row  border mx-auto">
+            <div class=" mt-1 mb-1 col-sm-4 p-0">
+                <img src="{{items.menu.item_image.url}}" width="110px" height="135px"  alt="image">
+            </div>
+            <div class="col-sm-8 bg-light">
+                <h6 class="mt-1 text-uppercase font-weight-bold">{{items.menu.item_name}}</h6>
+                <h6>QTY : {{items.order_quantity}}</h6>
+                <h6>PRICE : {{items.order_price}}</h6>
+                <h6>DOP : {{orders.date}}</h6>
+                <h6 class="bg-warning">Status : {{items.order_status}}</h6>
+            </div>
+
+        </div>
+
+    </div>
+    {% endif %}
+     {% endfor %}
+    {% endfor %}
+    {% endfor %}
+
+
+      {% for orders in orderhistory %}
+
+    {% for items in pastorders %}
+     {% for relation in orderanditem %}
+
+    {% if relation.ordernum.pk == orders.pk and relation.orderitemnum.pk == items.pk %}
+
+    <p class="text-center">order number : {{orders.pk}}</p>
+    <div class="col-sm-4 mb-3 mx-auto ">
+
+        <div class="row  border mx-auto">
+            <div class=" mt-1 mb-1 col-sm-4 p-0">
+                <img src="{{items.menu.item_image.url}}" width="110px" height="135px"  alt="image">
+            </div>
+            <div class="col-sm-8 bg-light">
+                <h6 class="mt-1 text-uppercase font-weight-bold">{{items.menu.item_name}}</h6>
+                <h6>QTY : {{items.order_quantity}}</h6>
+                <h6>PRICE : {{items.order_price}}</h6>
+                <h6>DOP : {{orders.date}}</h6>
+                <h6 class="bg-success">Status : {{items.order_status}}</h6>
+            </div>
+
+        </div>
+
+    </div>
+    {% endif %}
+     {% endfor %}
+    {% endfor %}
+    {% endfor %}
+</div>

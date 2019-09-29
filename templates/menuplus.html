@@ -1,0 +1,20 @@
+{% load crispy_forms_tags %}
+    <form method="POST" action="addshop/" class="post-form">{% csrf_token %}
+        <div class="row">
+            <div class="col-sm-3">{{ measurement.profile_name|as_crispy_field  }}</div>
+            <div class="col-sm-3">{{ measurement.shirt_fit|as_crispy_field  }}</div>
+            <div class="col-sm-3">{{ measurement.neck|as_crispy_field  }}</div>
+            <div class="col-sm-3">{{ measurement.chest|as_crispy_field  }}</div>
+            <div class="col-sm-3">{{ measurement.waist|as_crispy_field  }}</div>
+            <div class="col-sm-3">{{ measurement.hips|as_crispy_field  }}</div>
+            <div class="col-sm-3">{{ measurement.shirt_length|as_crispy_field  }}</div>
+            <div class="col-sm-3">{{ measurement.shoulders|as_crispy_field  }}</div>
+            <div class="col-sm-3">{{ measurement.sleeve_length|as_crispy_field  }}</div>
+            <div class="col-sm-3">{{ measurement.cuff|as_crispy_field  }}</div>
+            <div class="col-sm-3">{{ measurement.arm_hole|as_crispy_field  }}</div>
+            <div class="col-sm-3">{{ measurement.biceps|as_crispy_field  }}</div>
+            <div class="col-sm-3">{{ measurement.height|as_crispy_field  }}</div>
+            <div class="col-sm-3">{{ measurement.weight|as_crispy_field  }}</div>
+        </div>
+        <input type="submit" class="save btn btn-default"/>
+    </form>

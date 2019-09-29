@@ -2,89 +2,56 @@
 {% static "images" as baseUrl %}
 {% include 'com.html' %}
 {% include 'navbar.html' %}
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <style>
-#navbar {
-  overflow: hidden;
-  z-index:3;
-
+div::-webkit-scrollbar {
+  width: 1px;
 }
-#image{
 
--webkit-transition-property: width, height; /* Safari */
-  -webkit-transition-duration: 0.2s; /* Safari */
-  transition-property: width, height;
-  transition-duration: 0.2s;
-
+div::-webkit-scrollbar-thumb {
+  background: black;
+  border-radius: 50px;
+  opacity : 0.0;
 }
-.sticky {
-  position: fixed;
+
+.cover-bar1 {
+  position: absolute;
+  background: #fff;;
+  height: 100%;
   top: 0;
-  width: 100%;
-}
-#catfix{
- -webkit-transition-property: top; /* Safari */
-  -webkit-transition-duration: 0.2s; /* Safari */
-  transition-property: top;
-  transition-duration: 0.2s;
-}
-#cartfix{
- -webkit-transition-property: top; /* Safari */
-  -webkit-transition-duration: 0.2s; /* Safari */
-  transition-property: top;
-  transition-duration: 0.2s;
-}
-#menulist{
- -webkit-transition-property: top; /* Safari */
-  -webkit-transition-duration: 2s; /* Safari */
-  transition-property: top;
-  transition-duration: 2s;
-  margin-bottom:250px;
-
-}
-.catfix{
-  position: fixed;
-  top: 290;
-  z-index:2;
-  display:block;
-  width: 100%;
-  height:70%;
-  overflow: scroll;
-  seamless=seamless;
-
-}
-.cartfix{
-  position: fixed;
-  top: 290;
-  right:10px;
-  z-index:2;
-  display:block;
-  width: 100%;
-
+  right: 0;
+  width: 1px;
+  -webkit-transition: all .5s;
+  opacity: 1;
 }
 
-/* width */
-::-webkit-scrollbar {
-  width: 2px;
+.cover-bar2 {
+  position: absolute;
+  background: #fff;
+  height: 100%;
+  top: 0;
+  right: 338;
+  width: 1px;
+  -webkit-transition: all .5s;
+  opacity: 1;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 2px grey;
-  border-radius: 1px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: red;
-  border-radius: 1px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #b30000;
+.cover-bar3 {
+  position: absolute;
+  background: #000;
+  height: 100%;
+  top: 0;
+  left: 224;
+  width: 1px;
+  -webkit-transition: all .5s;
+  opacity: 1;
 }
 
 </style>
+</head>
 <div class="jumbotron mx-auto bg-light" id="navbar" style="padding:15px;">
 
     <div class="row">
@@ -98,52 +65,24 @@
 
     </div>
 </div>
-<section class="row" style="width:100%">
-    <!--  category available for restuartant  -->
-
-    <div class="col-3  catfix" id="catfix">
-       {% include 'categorylist.html'%}
+<div class="row  w-100 mx-auto mb-3 " >
+    <div class="col-sm-2 border-right" style="position:relative; height:450px; overflow-y:scroll;">
+    {% include 'categorylist.html' %}
     </div>
-    <div class="col-5 " id="menulist" style="margin-left:335px;">
-        <div class="row">
-             {% include 'menu.html'%}
-        </div>
+    <div class="col-sm-7 container2"  style="position:relative; height:450px; overflow-y:scroll;  ">
+    {% include 'menu.html' %}
 
     </div>
-    <div class="col-4 cartfix bg-light mx-auto" id="cartfix"> {% include 'minicart.html'%}</div>
-
-</section>
+    <div class="col-sm-3 mx-auto" style="position:relative; height:450px; overflow-y:scroll; ">
+    {% include 'minicart.html' %}
+    {% if ordertable  %}
+    <form action="/order/checkout/" method="post">{% csrf_token %}
+        <button class="row mt-3 btn btn-primary w-100 mx-auto" type="submit" > CHECKOUT </button>
+    </form>
+    {% endif %}
+    </div>
+<div class="cover-bar1"></div>
+<div class="cover-bar2"></div>
+<div class="cover-bar3"></div>
+</div>
 {% include 'footer.html' %}
-<script>
-
-window.onscroll = function() {myFunction()};
-
-
-var navbar = document.getElementById("navbar");
-
-
-var sticky = navbar.offsetTop;
-
-
-function myFunction() {
-  if (window.pageYOffset >= sticky) {
-    navbar.classList.add("sticky")
-  } else {
-    navbar.classList.remove("sticky");
-  }
-   if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-    document.getElementById("image").style.height = "6rem";
-    document.getElementById("image").style.width = "12rem";
-    document.getElementById("catfix").style.top = "180";
-    document.getElementById("cartfix").style.top = "180";
-
-
-  } else {
-    document.getElementById("image").style.height = "10rem";
-    document.getElementById("image").style.width = "16rem";
-    document.getElementById("catfix").style.top = "290";
-    document.getElementById("cartfix").style.top = "290";
-
-  }
-}
-</script>

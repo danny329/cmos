@@ -66,11 +66,16 @@ class Order(models.Model):
     def __str__(self):
         return self.id
 
+
 class OrderHistory(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='customerid')
-    date = models.DateField()
+    date = models.DateTimeField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    order = models.CharField(max_length=100)
     def __str__(self):
         return str(self.user.username + ' ' + self.price)
 
+class OrderAndItem(models.Model):
+    orderitemnum = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='Orderid')
+    ordernum = models.ForeignKey(OrderHistory, on_delete=models.CASCADE, related_name='OrderHistory')
+    def __str__(self):
+        return self.id

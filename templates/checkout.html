@@ -1,9 +1,16 @@
 {% load static %}
 {% static "images" as baseUrl %}
-<div><h2 class="text-center">CART</h2></div>
+{% include 'com.html' %}
+{% include 'navbar.html' %}
+
+<div class="col-sm-4 mx-auto ">
+    <div><h2 class="text-center">CART</h2></div>
 {% if ordertable  %}
-{% for order in ordertable %}
-<div class="row mt-2 bg-light">
+{% for shop_in in shop %}
+    <h4>{{shop_in.shop_name}}</h4>
+    {% for order in ordertable %}
+        {% if order.menu.item_shop.pk == shop_in.pk %}
+            <div class="row mt-2 bg-light ">
     <div class="col-sm-1 " >
         <img style="width:17px;height:17px; margin-left:-8px;" class="mt-3" src="{{order.menu.item_vegornonveg.image.url}}" alt="Card image cap">
     </div>
@@ -11,7 +18,7 @@
     <div class="col-sm-3" style="padding: 0px 0px 10px 0px;" >
         <div class="row w-100 border mt-2" style="margin-left:0px;">
             <div class="col-4 border border-right-0" style="padding-left:0px;">
-                <form action="/menu/restuartant_view/{{shop.pk}}/" method="post">{% csrf_token%}
+                <form action="/order/checkout/" method="post">{% csrf_token%}
                     <input type="hidden"  name="quantity_minus" value="{{order.pk}}">
                     <button type="submit"  class="btn btn-link "  style="margin-left:0px;padding:0px;width:20px;height:20px;background:none; ">
                         <img name="minus" style="margin:0px; width:20px height:20px;" src="{% static 'images/icons/minus.svg'%}">
@@ -20,7 +27,7 @@
             </div>
             <div class="col-4  mt-1" style="margin-left:0%; padding-left:9px">{{order.order_quantity}}</div>
             <div class="col-4 border border-left-0" style="padding-left:2px;">
-                <form action="/menu/restuartant_view/{{shop.pk}}/" method="post">{% csrf_token%}
+                <form action="/order/checkout/" method="post">{% csrf_token%}
                     <input type="hidden" name="quantity_plus" value="{{order.pk}}">
                     <button type="submit" name="" class="btn btn-link border border-0" value="{{order.pk}}" style="padding:0px; width:25px;height:25px;background: none;">
                         <img name="add" class="" style="margin:0px; width:25px height:25px;" src="{% static 'images/icons/plus.svg'%}">
@@ -29,19 +36,32 @@
             </div>
         </div>
     </div>
-    <div class="col-sm mt-2 " style="width:20px; padding-left:6px;">₹{{order.order_price}}</div>
+    <div class="col-sm-2 mt-2 pl-3" style="width:20px; padding-left:6px;">₹{{order.order_price}}</div>
+    <form action="/order/checkout/" class="col-sm-1" method="post">{% csrf_token %}
+        <input type="hidden"  name="deleteitem" value="{{order.pk}}">
+        <button class="btn btn-link" type="submit" style="background:none; padding-left:0px;" ><svg class=" mt-1"  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"><path d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z"/></svg></button>
+    </form>
+
 </div>
+        {% endif %}
+    {% endfor %}
 {% endfor %}
 
 <div class="row pl-2 mt-3">
-    <div class="col-sm-6"><h4>Subtotal</h4></div>
-    <div class="col-sm-6"><h4>₹{{subtotal}}</h4></div>
+    <div class="col-sm-6"><h4>Grand Total</h4></div>
+    <div class="col-sm-6"><h4><span style="font-size:20px">₹</span>{{grandtotal}}</h4></div>
 </div>
+    <form method="post" action="/order/checkout/">{% csrf_token %}
+        <input type="hidden" name="confirm_order" value="">
+        <button type="submit" class="btn btn-primary mx-auto w-100">
+            <h4 style="color:#fff;" class="mt-2">CONFIRM ORDER</h4>
+        </button>
+    </form>
+
 {% else %}
 <div class="container mx-auto text-center">
 <!--<img width="100px" height="100px" src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_480/Cart_empty_-_menu_2x_ejjkf2">-->
     <h6 class="">cart empty</h6>
 </div>
 {% endif %}
-
-
+</div>
