@@ -1,0 +1,12 @@
+{% include 'com.html'%}
+{% include 'navbar_vendor.html' %}
+{% load crispy_forms_tags %}
+<h1 class="mx-auto text-center">ADD CATEGORY</h1>
+<div class="container w-25 mt-5 mx-auto border">
+    <form method="POST" action="/foodcategoryplus/"  class="post-form mb-3">{% csrf_token %}
+        <div class="row">
+            <div class="col-sm-12">{{ addfoodcategory.food_category_name|as_crispy_field  }}</div>
+        </div>
+        <input type="submit" class="save btn btn-sm col-sm-12 btn-success"/>
+    </form>
+</div>

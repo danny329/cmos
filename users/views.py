@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth, Group
 from .models import UserExtend
+from homepage.views import shopplus
 
 
 # Create your views here.
@@ -8,17 +9,14 @@ from .models import UserExtend
 def login(request):
     return render(request, 'login.html')
 
-def register(request):
-    userg = Group.objects.all()
-    print(userg)
-    return render(request, 'register_form.html', {'userg': userg})
+
 
 def register_verify(request):
     if request.method == 'POST':
         full_name = request.POST['fullname']
         name = full_name.split()
         first_name = name[0]
-        last_name = name[-1]
+        last_name = name[1]
         username = request.POST['username']
         email = request.POST['email']
         gender = request.POST['gender']
@@ -43,9 +41,11 @@ def register_verify(request):
             return redirect('/')
         else:
             print('password wrng')
-            return redirect('/users/register')
+
     else:
-        return redirect('/users/register')
+        userg = Group.objects.all()
+        print(userg)
+        return render(request, 'register_form.html', {'userg': userg})
 
 
 # verify login
@@ -57,7 +57,11 @@ def signin_verify(request):
 
         if user is not None:
             auth.login(request, user)
-            return redirect('/')
+            usergroup = Group.objects.get(name='vendor')
+            if request.user.groups.filter(name=usergroup).exists():
+                return shopplus(request)
+            else:
+                return redirect('/')
         else:
             print('invalid there')
             return redirect('/users/login')

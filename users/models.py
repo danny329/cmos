@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
 
@@ -12,14 +12,16 @@ class UserExtend(models.Model):
     def __str__(self):
         return self.userref.username
 
-
+class ShopStatus(models.Model):
+    status = models.CharField(max_length=50)
 
 class Shop(models.Model):
     shop_name = models.CharField(max_length=50)
     shop_image = models.ImageField(upload_to='pics/ShopImage')
     shop_description = models.CharField(max_length=50)
     shop_price = models.DecimalField(max_digits=8, decimal_places=2)
-    shop_size = models.CharField(max_length=25)
+    shop_size = models.CharField(max_length=50)
+    shop_status = models.ForeignKey(ShopStatus, on_delete=models.CASCADE, related_name='shop_status')
     vendor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='vendor', null=True, blank=True)
 
     def __str__(self):
@@ -43,7 +45,7 @@ class Menu(models.Model):
     item_name = models.CharField(max_length=50)
     item_image = models.ImageField(upload_to='pics/MenuImage', null=True, blank=True)
     item_desc = models.CharField(max_length=50, null=True, blank=True)
-    item_price = models.DecimalField(max_digits=5, decimal_places=2)
+    item_price = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(1.0)])
     item_vegornonveg = models.ForeignKey(VegOrNonVeg, on_delete=models.CASCADE,related_name='item_vegornonveg')
     item_food_category = models.ForeignKey(FoodCategory, on_delete=models.CASCADE, related_name='item_category')
     item_shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='item_shop')
@@ -71,6 +73,7 @@ class OrderHistory(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='customerid')
     date = models.DateTimeField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
+    order = models.ManyToManyField(Order)
     def __str__(self):
         return str(self.user.username + ' ' + self.price)
 

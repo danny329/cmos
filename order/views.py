@@ -5,6 +5,7 @@ from datetime import datetime
 # Create your views here.
 
 def checkout(request):
+
     grandtotal = 0
     try:
         if request.method == 'POST':
@@ -43,12 +44,11 @@ def checkout(request):
                     for orderitem in orderlist:
                         total = total + orderitem.order_price
                     confirmed_order = OrderHistory.objects.create(customer=request.user, date=datetime.now(), price=total)
-                    confirmed_order.save()
                     for orderitem in orderlist:
                         orderitem.order_status = OrderStatus.objects.get(status='ordered')
                         orderitem.save()
-                        orderanditem = OrderAndItem.objects.create(orderitemnum=orderitem, ordernum=confirmed_order)
-                        orderanditem.save()
+                        confirmed_order.order.add(orderitem)
+                    confirmed_order.save()
                 except Exception as e:
                     print(e)
         shop = Shop.objects.all()
@@ -64,13 +64,10 @@ def checkout(request):
     return render(request, 'checkout.html', context)
 
 def orders(request):
+    orderhistory = OrderHistory.objects.filter(customer=request.user).order_by('pk')
     ordertracking = Order.objects.filter(order_status=OrderStatus.objects.get(status='ordered'),
-                                          customer=request.user).order_by('menu__item_shop__pk', 'pk')
+                                          customer=request.user, orderhistory__in=orderhistory).order_by('menu__item_shop__pk', 'pk')
     pastorders = Order.objects.filter(order_status=OrderStatus.objects.get(status='delivered'),
-                                         customer=request.user).order_by('menu__item_shop__pk', 'pk')
-    orderhistory = OrderHistory.objects.filter(customer=request.user)
-    orderanditem = OrderAndItem.objects.all()
-
-
-    context = {'ordertracking': ordertracking,'pastorders': pastorders, 'orderhistory': orderhistory,'orderanditem': orderanditem}
+                                         customer=request.user, orderhistory__in=orderhistory).order_by('menu__item_shop__pk', 'pk')
+    context = {'ordertracking': ordertracking,'pastorders': pastorders, 'orderhistory': orderhistory}
     return render(request,'orders.html',context)

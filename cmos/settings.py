@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'menu',
     'order',
     'homepage',
+    'crispy_forms',
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -80,7 +82,7 @@ WSGI_APPLICATION = 'cmos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'daniel',
+        'NAME': 'cmostest1',
         'USER': 'postgres',
         'PASSWORD': 'danielpaul',
         'HOST': 'localhost',

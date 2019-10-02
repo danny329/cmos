@@ -1,0 +1,23 @@
+
+{% include 'com.html'%}
+{% include 'navbar_vendor.html' %}
+<h2 class="text-center">SHOP PURCHASE</h2>
+<div class="row mx-auto mt-3">
+    {%for shop in shops%}
+    <div class="col-sm-2 border m-0 p-0 mx-auto">
+        <div class="mx-auto"><img src="{{shop.shop_image.url}}" width="226px" height="150px" ></div>
+        <div class="col-sm-12 mb-2">
+            <h6>NAME : {{shop.shop_name}}</h6>
+            <h6>DESC : {{shop.shop_description}}</h6>
+            <h6>PRICE :{{shop.shop_price}}</h6>
+            <h6>SIZE : {{shop.shop_size}}</h6>
+            <form action="/shopplus/"  method="post">{%csrf_token%}
+                <input type="hidden" name="shoppurchase" value="{{shop.pk}}">
+                <input type="submit" value="purchase" class="btn btn-success btn-sm col-sm-12">
+            </form>
+        </div>
+
+
+    </div>
+    {%endfor%}
+</div>
