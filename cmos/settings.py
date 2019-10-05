@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     'order',
     'homepage',
     'crispy_forms',
+    'sweetify',
 ]
+
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
@@ -134,3 +137,4 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+SWEETIFY_SWEETALERT_LIBRARY = 'sweetalert2'

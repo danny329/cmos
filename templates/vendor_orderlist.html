@@ -2,11 +2,13 @@
 {% static "images" as baseUrl %}
 {% include 'com.html' %}
 {% include 'navbar_vendor.html' %}
-<div class="row mx-auto bg-light">
+<h3 class="mx-auto mt-3 mb-3 text-center">ALL ORDER REQUESTS FROM CUSTOMERS</h3>
+<div class="container mx-auto  p-1">
+
 {% for order in orders %}
 {% for shops in shop %}
     {% if shops.pk == order.menu.item_shop.pk %}
-<div class="col-sm-5 mt-2 border" style="margin: 0 auto;">
+    <div class="col-sm-3 mx-auto mt-2 bg-light border">
     <div class="row">
     <div class="col-sm-6 mt-1">
         <h6>CUST : {{order.customer.username}}</h6>

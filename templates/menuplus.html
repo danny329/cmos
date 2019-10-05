@@ -2,23 +2,3 @@
 {% include 'navbar_vendor.html' %}
 {% load crispy_forms_tags %}
 <h1 class="text-center">ADD MENU</h1>
-<div class="container row mx-auto w-50 bg-light mt-3">
-
-    <form method="POST" action="/menuplus/" enctype="multipart/form-data"  class="post-form">{% csrf_token %}
-        <div class="row">
-            <div class="col-sm-6">{{ addmenu.item_name|as_crispy_field  }}</div>
-            <div class="col-sm-6">{{ addmenu.item_desc|as_crispy_field  }}</div>
-            <div class="col-sm-6">{{ addmenu.item_price|as_crispy_field  }}</div>
-            <div class="col-sm-6">{{ addmenu.item_food_category|as_crispy_field  }}</div>
-            <div class="col-sm-6">{{ addmenu.item_vegornonveg|as_crispy_field  }}</div>
-            <div class="col-sm-6">{{ addmenu.item_shop|as_crispy_field  }}</div>
-            <div class="col-sm-12">{{ addmenu.item_image|as_crispy_field  }}</div>
-
-
-
-
-<input type="submit" class="save btn btn-success btn-sm mx-auto"/>
-        </div>
-
-    </form>
-</div>

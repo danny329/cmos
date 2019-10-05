@@ -9,7 +9,7 @@
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <div class="logo ">
-							<a class="navbar-brand" href="index.html">
+							<a class="navbar-brand" href="/vendor_home/">
 								<div class="text-dark">CMOS</div>
 								<div class="text-dark">Canteen Management and Ordering System</div>
 							</a>
@@ -24,27 +24,18 @@
                         <div class=" collapse navbar-collapse main-menu-item justify-content-end"
                             id="navbarSupportedContent">
                             <ul class="navbar-nav mx-auto row ">
-                                <li class="nav-item active col-sm-2">
-                                    <a class="nav-link mr-3" href="/vendor_home/"><img style="margin-top:-6px;" src="https://img.icons8.com/small/18/000000/home.png"> &nbsp;<h5 style="display:inline;">HOME</h5></a>
-                                </li>
-                                <li class="nav-item col-sm-2">
+                                <li class="nav-item col-sm-4">
                                     <a class="nav-link mr-3" href="/shopplus/"><img style="margin-top:-6px;" src="https://img.icons8.com/small/18/000000/home.png"> &nbsp;<h5 style="display:inline;">SHOP+</h5></a>
                                 </li>
-                                <li class="nav-item col-sm-2">
-                                    <a class="nav-link mr-4" href="/menuplus/"><img style="margin-top:-6px;" src="https://img.icons8.com/material-outlined/18/000000/about.png">&nbsp;<h5 style="display:inline;">MENU+</h5></a>
-                                </li>
-                                <li class="nav-item col-sm-2">
-                                    <a class="nav-link mr-4" href="/foodcategoryplus/"><img style="margin-top:-6px;" src="https://img.icons8.com/windows/21/000000/help.png">&nbsp;<h5 style="display:inline;">CATEGORY+</h5></a>
-                                </li>
-                                 <li class="nav-item col-sm-2">
-                                    <a class="nav-link mr-4" href="/vendor_orderlist/"><img style="margin-top:-6px;" src="https://img.icons8.com/windows/21/000000/help.png">&nbsp;<h5 style="display:inline;">ORDERLIST</h5></a>
+                                 <li class="nav-item col-sm-4">
+                                    <a class="nav-link mr-4" href="/vendor_orderlist/"><img style="margin-top:-6px;" src="https://img.icons8.com/windows/21/000000/help.png">&nbsp;<h5 style="display:inline;">ALL_ORDERS</h5></a>
                                 </li>
                                  {% if user.is_authenticated %}
-                                <li class="nav-item col-sm-2">
+                                <li class="nav-item col-sm-4">
                                     <a class="nav-link mr-4" style="text-transform: uppercase;" href="/users/logout"><h5 style="display:inline;">{{user.username}},&nbsp;LOGOUT</h5></a>
                                 </li>
                                 {% else %}
-                                <li class="nav-item col-sm-2">
+                                <li class="nav-item col-sm-4">
                                     <a class="nav-link mr-4" href="/users/login"><img style="margin-top:-6px;" src="https://img.icons8.com/ios/15/000000/enter-2.png">&nbsp;<h5 style="display:inline;">SIGN IN</h5> </a>
                                 </li>
                                 {% endif %}

@@ -1,5 +1,5 @@
 .creditCardForm {
-    max-width: 700px;
+    max-width: 600px;
     background-color: #fff;
     margin: 100px auto;
     overflow: hidden;
@@ -51,7 +51,7 @@
 }
 
 .creditCardForm #expiration-date {
-    width: 49%;
+    width: 50%;
 }
 
 .creditCardForm #credit_cards {

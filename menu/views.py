@@ -1,78 +1,93 @@
 from django.shortcuts import render,redirect
-from users.models import Menu,Shop, FoodCategory, Order, OrderStatus
+from users.models import Menu,Shop, FoodCategory, Order, OrderStatus,ShopStatus
 # Create your views here.
 
 def category(request):
+    try:
+        return render(request, 'categorylist.html')
+    except Exception as e:
+        print(e)
 
-    return render(request, 'categorylist.html')
 
 def menu(request):
-    menus = Menu.objects.all()
-    context = {'category':menus}
-    return render(request, 'menu.html',context)
+    try:
+        menus = Menu.objects.all()
+        context = {'category': menus}
+        return render(request, 'menu.html', context)
+    except Exception as e:
+        print(e)
+
 
 def restuartants(request):
-    shops = Shop.objects.all()
-    context = {'shops':shops}
-    if request.method == 'POST':
-        if 'shop_select' in request.POST:
-            res = request.POST['shop_select']
-            return restuartant_view(request,res)
+    try:
+        shops = Shop.objects.filter(shop_status__status='sold')
+        context = {'shops': shops}
+        if request.method == 'POST':
+            if 'shop_select' in request.POST:
+                res = request.POST['shop_select']
+                return restuartant_view(request, res)
+        return render(request, 'restuartants.html', context)
+    except Exception as e:
+        print(e)
 
-    return render(request, 'restuartants.html',context)
 
 def restuartant_view(request, res=0):
     try:
         subtotal = 0
         if request.method == 'POST':
-            if 'menu_item_pk' in request.POST:
-                if Order.objects.filter(customer=request.user, order_status=OrderStatus.objects.get(status='cart'), menu=Menu.objects.get(pk=request.POST['menu_item_pk'])).exists():
-                    cart = Order.objects.get(customer=request.user, order_status=OrderStatus.objects.get(status='cart'), menu=Menu.objects.get(pk=request.POST['menu_item_pk']))
-                    cart.order_quantity = cart.order_quantity + 1
-
-                else:
-                    cart = Order()
-                    cart.customer = request.user
-                    cart.menu = Menu.objects.get(pk=request.POST['menu_item_pk'])
-                    cart.order_quantity = 1
-                    cart.order_status = OrderStatus.objects.get(status='cart')
-                cart.order_price = Menu.objects.get(pk=request.POST['menu_item_pk']).item_price * cart.order_quantity
-                cart.save()
-
-            if 'quantity_minus' in request.POST:
-                try:
-                    cart = Order.objects.get(pk=request.POST['quantity_minus'])
-                    if cart.order_quantity == 1:
-                        cart.delete()
-                    else:
-                        cart.order_quantity = cart.order_quantity - 1
-                        cart.order_price = cart.menu.item_price * cart.order_quantity
-                        cart.save()
-                except Exception as e:
-                    print(e)
-            if 'quantity_plus' in request.POST:
-                try:
-                    cart = Order.objects.get(pk=request.POST['quantity_plus'])
-                    if cart.order_quantity < 10:
+            if request.user.is_authenticated:
+                if 'menu_item_pk' in request.POST:
+                    if Order.objects.filter(customer=request.user, order_status=OrderStatus.objects.get(status='cart'),menu=Menu.objects.get(pk=request.POST['menu_item_pk'])).exists():
+                        cart = Order.objects.get(customer=request.user,order_status=OrderStatus.objects.get(status='cart'), menu=Menu.objects.get(pk=request.POST['menu_item_pk']))
                         cart.order_quantity = cart.order_quantity + 1
-                        cart.order_price = cart.menu.item_price * cart.order_quantity
-                        cart.save()
-                except Exception as e:
-                    print(e)
-        menus = Menu.objects.filter(item_shop=res)
-        category = Menu.objects.distinct("item_food_category").all()
+                    else:
+                        cart = Order()
+                        cart.customer = request.user
+                        cart.menu = Menu.objects.get(pk=request.POST['menu_item_pk'])
+                        cart.order_quantity = 1
+                        cart.order_status = OrderStatus.objects.get(status='cart')
+                    cart.order_price = Menu.objects.get(pk=request.POST['menu_item_pk']).item_price * cart.order_quantity
+                    cart.save()
+                if 'quantity_minus' in request.POST:
+                    try:
+                        cart = Order.objects.get(pk=request.POST['quantity_minus'])
+                        if cart.order_quantity == 1:
+                            cart.delete()
+                        else:
+                            cart.order_quantity = cart.order_quantity - 1
+                            cart.order_price = cart.menu.item_price * cart.order_quantity
+                            cart.save()
+                    except Exception as e:
+                        print(e)
+                if 'quantity_plus' in request.POST:
+                    try:
+                        cart = Order.objects.get(pk=request.POST['quantity_plus'])
+                        if cart.order_quantity < 10:
+                            cart.order_quantity = cart.order_quantity + 1
+                            cart.order_price = cart.menu.item_price * cart.order_quantity
+                            cart.save()
+                    except Exception as e:
+                        print(e)
+
+        menus = Menu.objects.filter(item_shop=Shop.objects.get(pk=res))
+        print(res)
+        category = menus.distinct("item_food_category").all()
+
         shop = Shop.objects.get(pk=res)
-        ordertable = Order.objects.filter(order_status=OrderStatus.objects.get(status='cart'),
-                                          customer=request.user).order_by('pk')
-        for amt in ordertable:
-            subtotal = subtotal + amt.order_price
-            print(subtotal)
 
+        context = {'menus': menus, 'shop': shop, 'category': category, 'subtotal': subtotal}
 
+        if request.user.is_authenticated:
+            ordertable = Order.objects.filter(order_status__status='cart',customer=request.user).order_by('pk')
+            context['ordertable'] = ordertable
 
+            for amt in ordertable:
+                subtotal = subtotal + amt.order_price
+                print(subtotal)
+
+        return render(request, 'restuartant_view.html', context)
+    # else:
+        #     return redirect('/menu/restuartants/')
 
     except Exception as e:
         print(e)
-    context = {'menus': menus, 'shop': shop, 'category': category, 'ordertable': ordertable, 'subtotal': subtotal}
-    return render(request,'restuartant_view.html',context)
-

@@ -14,7 +14,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/payment_demo.css'%}">
 </head>
 
-<body>
 
  <div class="container w-50 border text-center bg-light mx-auto pl-2 pr-2">
                 <h5 class="font-weight-bold">PURCHASE DETAILS</h5>
@@ -23,13 +22,13 @@
                 <h6 class="col-sm-6 font-weight-bold">SIZE : {{shop.shop_size}} </h6>
                 <h6 class="col-sm-6 font-weight-bold">SIZE : {{shop.shop_description}} </h6>
             </div>
-    <div class="container-fluid" style="margin-top:-90px;">
-        <div class="creditCardForm">
+    <div class="container-fluid" style="margin-top:-95px;">
+        <div class="creditCardForm w-75">
             <div class="heading">
                 <h1>Confirm Purchase</h1>
             </div>
             <div class="payment">
-                <form>
+                <form action="/payment/{{shop.pk}}/" id="form1" method="post">{% csrf_token %}
                     <div class="form-group owner">
                         <label for="owner">Owner</label>
                         <input type="text" class="form-control" id="owner">
@@ -59,12 +58,12 @@
                             <option value="12">December</option>
                         </select>
                         <select>
-                            <option value="16"> 2016</option>
-                            <option value="17"> 2017</option>
-                            <option value="18"> 2018</option>
-                            <option value="19"> 2019</option>
                             <option value="20"> 2020</option>
                             <option value="21"> 2021</option>
+                            <option value="16"> 2022</option>
+                            <option value="17"> 2023</option>
+                            <option value="18"> 2024</option>
+                            <option value="19"> 2025</option>
                         </select>
                     </div>
                     <div class="form-group" id="credit_cards">
@@ -73,19 +72,13 @@
                         <img src="{% static 'images/amex.jpg'%}" id="amex">
                     </div>
                     <div class="form-group" id="pay-now">
-                        <form action="/payment/" id="form1" method="post">{% csrf_token %}
 
-                        <button type="submit" class="btn  btn-sm" id="confirm-purchase" onclick="return val()">Confirm</button>
-                        </form>
-
+                        <button type="submit" class="btn  btn-sm" id="confirm-purchase">Confirm</button>
                     </div>
                 </form>
             </div>
         </div>
-
-        <p class="examples-note">Here are some dummy credit card numbers and CVV codes so you can test out the form:</p>
-
-        <div class="examples">
+      <div class="examples">
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
@@ -117,9 +110,6 @@
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <script src="{% static 'js/jquery.payform.min.js'%}" charset="utf-8"></script>
     <script src="{% static 'js/payment_script.js'%}"></script>
-</body>
-
-</html>

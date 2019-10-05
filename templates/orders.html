@@ -4,45 +4,30 @@
 {% include 'navbar.html' %}
 
 <div class="container border mt-3 mx-auto ">
-
      {% for orders in orderhistory %}
-
- <p class="text-center">order number : {{orders.pk}}</p>
-{% for item in orders.order.all %}
-
-    {% for items in ordertracking%}
-
-{% if items.pk == item.pk %}
-
-
-    <div class="col-sm-4 mb-3 mx-auto ">
-        <div class="row  border mx-auto">
-            <div class=" mt-1 mb-1 col-sm-4 p-0">
-                <img src="{{item.menu.item_image.url}}" width="110px" height="135px"  alt="image">
-            </div>
-            <div class="col-sm-8 bg-light">
-                <h6 class="mt-1 text-uppercase font-weight-bold">{{item.menu.item_name}}</h6>
-                <h6>QTY : {{item.order_quantity}}</h6>
-                <h6>PRICE : {{item.order_price}}</h6>
-                <h6>DOP : {{orders.date}}</h6>
-                <h6 class="bg-warning">Status : {{item.order_status}}</h6>
-            </div>
-        </div>
-    </div>
-    {% endif%}
-    {% endfor%}
-    {% endfor %}
-    {% endfor %}
-
-
-{% for orders in orderhistory %}
-<p class="text-center">order number : {{orders.pk}}</p>
-{% for item in orders.order.all %}
-
-{% for items in pastorders%}
-
-    {% if items.pk == item.pk %}
-    <div class="col-sm-4 mb-3 mx-auto ">
+        <p class="text-center">order number : {{orders.pk}}</p>
+        {% for item in orders.order.all %}
+            {% for items in ordertracking%}
+                {% if items.pk == item.pk %}
+                    <div class="col-sm-4 mb-3 mx-auto ">
+                        <div class="row  border mx-auto">
+                            <div class=" mt-1 mb-1 col-sm-4 p-0">
+                                <img src="{{item.menu.item_image.url}}" width="110px" height="135px"  alt="image">
+                            </div>
+                            <div class="col-sm-8 bg-light">
+                                <h6 class="mt-1 text-uppercase font-weight-bold">{{item.menu.item_name}}</h6>
+                                <h6>QTY : {{item.order_quantity}}</h6>
+                                <h6>PRICE : {{item.order_price}}</h6>
+                                <h6>DOP : {{orders.date}}</h6>
+                                <h6 class="bg-warning">Status : {{item.order_status}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                {% endif%}
+            {% endfor%}
+            {% for items in pastorders%}
+                {% if items.pk == item.pk %}
+                    <div class="col-sm-4 mb-3 mx-auto ">
         <div class="row  border mx-auto">
             <div class=" mt-1 mb-1 col-sm-4 p-0">
                 <img src="{{item.menu.item_image.url}}" width="110px" height="135px"  alt="image">
@@ -56,8 +41,8 @@
             </div>
         </div>
     </div>
-    {% endif%}
-    {% endfor%}
-    {% endfor %}
+                {% endif%}
+            {% endfor%}
+        {% endfor %}
     {% endfor %}
 </div>

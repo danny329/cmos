@@ -1,0 +1,197 @@
+{% load static %}
+{% static "images" as baseUrl %}
+{% include 'com.html'%}
+{% include 'navbar_vendor.html' %}
+{% load crispy_forms_tags %}
+<section class="container-fluid w-100 p-3 pl-5 pr-5">
+    <h2 class="text-center mt-3 bg-light p-3 border font-weight-bold text-uppercase">{{shopobj.shop_name}} details</h2>
+    <div class="row ">
+      <div class="col-3 mt-5 px-5">
+        <div class="list-group " id="list-tab" role="tablist">
+          <a class="list-group-item list-group-item-action active border-0" id="list-menu-list" data-toggle="list" href="#list-menu" role="tab" aria-controls="menu">MENU</a>
+          <a class="list-group-item list-group-item-action border-0" id="list-orders-list" data-toggle="list" href="#list-orders" role="tab" aria-controls="orders">ORDERS</a>
+          <a class="list-group-item list-group-item-action border-0" id="list-category-list" data-toggle="list" href="#list-category" role="tab" aria-controls="category">CATEGORY</a>
+          <a class="list-group-item list-group-item-action border-0" id="list-shopsettings-list" data-toggle="list" href="#list-shopsettings" role="tab" aria-controls="shopsettings">SHOP SETTINGS</a>
+        </div>
+      </div>
+      <div class="col-9">
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="list-menu" role="tabpanel" aria-labelledby="list-menu-list">
+            <div class="row">
+              <div class="col-6 mx-auto">
+                <div class="list-group list-group-horizontal text-center" id="list-tab-menu" role="tablist">
+                  <a class="list-group-item list-group-item-action" id="list-viewmenu-list" data-toggle="list" href="#list-viewmenu" role="tab" aria-controls="viewmenu">VIEW MENU</a>
+                  <a class="list-group-item list-group-item-action" id="list-addmenu-list" data-toggle="list" href="#list-addmenu" role="tab" aria-controls="addmenu">ADD MENU</a>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="tab-content" id="nav-tabContent-menu">
+                  <div class="tab-pane fade show active" id="list-viewmenu" role="tabpanel" aria-labelledby="list-viewmenu-list">
+                      <div class="row w-100 mx-auto" style="height:500px;">
+                        {% for menu in menus%}
+                        <div class="col-sm-3 border m-5 bg-warning mx-auto p-0" style="height:290px;">
+                            <img src="{{menu.item_image.url}}" class="col-sm-12 m-0 p-0 " style="width:250px;height:150px;">
+                            <div class="row pl-2">
+                                <div class="col-sm-1 m-0"><img src="{{menu.item_vegornonveg.image.url}}" class="mt-2 pl-0" style="width:12px;height:12px;"></div>
+                                <div class="col-sm-10 p-0 mt-1 text-uppercase"><h6>{{menu.item_name}}</h6></div>
+                            </div>
+                            <div class="col-sm-12 bg-white pl-2">
+                                <h6 class="text-lowercase" >{{menu.item_food_category}}</h6>
+                                <h6 style="font-size:11px;" class="text-lowercase bg-info rounded pl-2">{{menu.item_desc}}</h6>
+                                <h6>Rs. {{menu.item_price}}</h6>
+                            </div>
+                            <form method="post" action="/shopview/{{shopobj.pk}}/" >{%csrf_token%}
+                                <input type="hidden" name="menudelete" value="{{menu.pk}}">
+                                <button class="col-sm-12 btn btn-sm btn-danger" type="submit">delete</button>
+                            </form>
+
+                        </div>
+                        {%endfor%}
+                      </div>
+                  </div>
+                  <div class="tab-pane fade" id="list-addmenu" role="tabpanel" aria-labelledby="list-addmenu-list">
+                      <div class="container row mx-auto w-50 bg-light mt-3">
+                          <form method="POST" action="/shopview/{{shopobj.pk}}/" enctype="multipart/form-data"  class="post-form">{% csrf_token %}
+                              <div class="row">
+                                    <div class="col-sm-6">{{ addmenu.item_name|as_crispy_field  }}</div>
+                                    <div class="col-sm-6">{{ addmenu.item_desc|as_crispy_field  }}</div>
+                                    <div class="col-sm-6">{{ addmenu.item_price|as_crispy_field  }}</div>
+                                    <div class="col-sm-6">{{ addmenu.item_food_category|as_crispy_field  }}</div>
+                                    <div class="col-sm-6">{{ addmenu.item_vegornonveg|as_crispy_field  }}</div>
+                                    <div class="col-sm-12">{{ addmenu.item_image|as_crispy_field  }}</div>
+                                    <div class="col-sm-12">{{ addmenu.item_shop|as_crispy_field  }}</div>
+                                    <input type="submit" class="save btn btn-success btn-sm mx-auto"/>
+                                </div>
+                          </form>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="list-orders" role="tabpanel" aria-labelledby="list-orders-list">
+               <div class="row">
+              <div class="col-6 mx-auto">
+                <div class="list-group list-group-horizontal  text-center" id="list-tab-order" role="tablist">
+                  <a class="list-group-item list-group-item-action" id="list-vieworders-list" data-toggle="list" href="#list-vieworders" role="tab" aria-controls="vieworders">VIEW ORDERS</a>
+                  <a class="list-group-item list-group-item-action" id="list-orderhistory-list" data-toggle="list" href="#list-orderhistory" role="tab" aria-controls="orderhistory">ALL ORDERS</a>
+
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="tab-content" id="nav-tabContent-order">
+                  <div class="tab-pane fade show active" id="list-vieworders" role="tabpanel" aria-labelledby="list-vieworders-list">
+                      <div class="row mt-3">
+                        <div class="col-sm-4  p-0 mb-3 mx-auto ">
+                            {%for orders in orderhistory %}
+                            {%for order in orders.order.all %}
+                            {% if order.menu.item_shop.pk == shopobj.pk and order.order_status.pk == 2 %}
+                                <div class="row   mx-auto p-0 m-0">
+                                    <div class=" mt-1 mb-1 col-sm-4 p-0">
+                                        <img src="{{order.menu.item_image.url}}" width="100px" height="140px"  alt="image">
+                                    </div>
+                                    <div class="col-sm-8 bg-light px-1">
+                                        <h6  style="font-size:12px;" class="mt-1 text-uppercase font-weight-bold">CUST : {{order.customer.username}}</h6>
+                                        <h6  style="font-size:12px;">QTY : {{order.order_quantity}}</h6>
+                                        <h6  style="font-size:12px;">PRICE : {{order.order_price}}</h6>
+                                        <h6  style="font-size:12px;">DOP : {{orders.date}}</h6>
+                                        <h6  style="font-size:12px;" class="bg-warning">Status : {{order.order_status}}</h6>
+                                         <form action="/shopview/{{shopobj.pk}}/" method="post" >
+                                            {%csrf_token%}
+                                            <input type="hidden" name="orderitem" value="{{order.pk}}">
+                                            <input type="submit" value="delivered" class="btn btn-success btn-sm col-sm-12 text-uppercase">
+                                        </form>
+                                    </div>
+                                </div>
+                            {%endif%}
+                            {%endfor%}
+                            {%endfor%}
+                        </div>
+
+</div>
+                  </div>
+                  <div class="tab-pane fade" id="list-orderhistory" role="tabpanel" aria-labelledby="list-orderhistory-list">
+                        <div class="row mt-3">
+                            <div class="col-sm-4  p-0 mb-3 mx-auto ">
+                            {%for orders in orderhistory %}
+                            {%for order in orders.order.all %}
+                            {% if order.menu.item_shop.pk == shopobj.pk and order.order_status.pk == 3 %}
+                                <div class="row   mx-auto p-0 ">
+                                    <div class=" mt-1 mb-1 col-sm-4 p-0">
+                                        <img src="{{order.menu.item_image.url}}" width="100px" height="110px"  alt="image">
+                                    </div>
+                                    <div class="col-sm-8 mt-1 mb-1 bg-info  px-1">
+                                        <h6  style="font-size:12px;" class="mt-1 text-uppercase font-weight-bold">CUST : {{order.customer.username}}</h6>
+                                        <h6  style="font-size:12px;">QTY : {{order.order_quantity}}</h6>
+                                        <h6  style="font-size:12px;">PRICE : {{order.order_price}}</h6>
+                                        <h6  style="font-size:12px;">DOP : {{orders.date}}</h6>
+                                        <h6  style="font-size:12px;" class="bg-warning">Status : {{order.order_status}}</h6>
+                                    </div>
+                                </div>
+
+                            {%endif%}
+                            {%endfor%}
+                            {%endfor%}
+                        </div>
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="list-category" role="tabpanel" aria-labelledby="list-category-list">
+              <div class="row">
+              <div class="col-6 mx-auto">
+                <div class="list-group list-group-horizontal  text-center " id="list-tab-category" role="tablist">
+                  <a class="list-group-item list-group-item-action" id="list-viewcategory-list" data-toggle="list" href="#list-viewcategory" role="tab" aria-controls="viewcategory">VIEW CATEGORY</a>
+                  <a class="list-group-item list-group-item-action" id="list-addcategory-list" data-toggle="list" href="#list-addcategory" role="tab" aria-controls="addcategory">ADD CATEGORY</a>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="tab-content" id="nav-tabContent-category">
+                  <div class="tab-pane fade show active" id="list-viewcategory" role="tabpanel" aria-labelledby="list-viewcategory-list">
+                      <div class="row mt-3">
+                          {%for category in categorylist%}
+                            <div class="col-sm-3 mx-auto list-group-horizontal list-group ">
+                                <h6 class="list-group-item list-group-item-action m-1 bg-warning text-uppercase text-center"> {{category.food_category_name}}</h6>
+                            </div>
+                          {%endfor%}
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="list-addcategory" role="tabpanel" aria-labelledby="list-addcategory-list">
+                      <div class="container w-25 mt-5 mx-auto border">
+                            <form method="POST" action="/shopview/{{shopobj.pk}}/"  class="post-form mb-3">{% csrf_token %}
+                                <div class="row">
+                                    <div class="col-sm-12">{{ addfoodcategory.food_category_name|as_crispy_field  }}</div>
+                                </div>
+                                <input type="submit" class="save btn btn-sm col-sm-12 btn-success"/>
+                            </form>
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="list-shopsettings" role="tabpanel" aria-labelledby="list-shopsettings-list">
+                <div class="container w-50 mt-5 pb-2 mx-auto border">
+                    <form method="POST" action="/shopview/{{shopobj.pk}}/"  class="post-form mb-3">{% csrf_token %}
+                        <div class="row m-3">
+                            <div class="col-sm-12">{{ shopdetails.shop_name|as_crispy_field  }}</div>
+                            <div class="col-sm-12">{{ shopdetails.shop_description|as_crispy_field  }}</div>
+                            <div class="col-sm-12">{{ shopdetails.shop_image|as_crispy_field  }}</div>
+                        </div>
+                        <input type="submit" class="save btn btn-sm col-sm-12 btn-success"/>
+                    </form>
+                    <form method="POST" action="/shopview/{{shopobj.pk}}/">{% csrf_token %}
+                        <input type="hidden" name="returnshop" value="{{shopobj.pk}}">
+                        <input type="submit" class="btn btn-sm bg-danger w-100 text-white" value="RETURN SHOP">
+                    </form>
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</section>
+
+

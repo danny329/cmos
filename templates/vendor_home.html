@@ -1,3 +1,39 @@
-
+{% load static %}
+{% static "images" as baseUrl %}
 {% include 'com.html'%}
 {% include 'navbar_vendor.html' %}
+ <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'>
+</script>
+<style>
+    .radiobtn{
+    transform: scale(1);
+    width:275px;
+    height:260px;
+    margin-left:-100px;
+    position : absolute;
+    z-index: 1;
+    opacity: 0.0;
+    }
+</style>
+<section class="container">
+    <h2 class="mx-auto py-3 pl-0">Shops You Own</h2>
+    <form name="formshop" action="/vendor_home/" method="post" class="w-100  row mt-3">{%csrf_token%}
+        {% for item in shop %}
+         <div class="col-sm-3 border m-2  p-0">
+            <input type="radio" name="shopobj" class="radiobtn m-0 p-0" value="{{item.pk}}" >
+            <div class="col-sm-12 bg-light m-0 p-0"><img class="m-0 p-0" src="{{item.shop_image.url}}" height="200px" width="275px"></div>
+            <div class="col-sm-12"><h4>{{item.shop_name}}</h4></div>
+            <div class="col-sm-12"><h6>{{item.shop_description}}</h6></div>
+        </div>
+        {% endfor %}
+    </form>
+</section>
+ <script type='text/javascript'>
+
+ $(document).ready(function() {
+   $('input[name=shopobj]').change(function(){
+        $('form[name=formshop]').submit();
+   });
+  });
+
+</script>

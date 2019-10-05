@@ -14,6 +14,8 @@ class UserExtend(models.Model):
 
 class ShopStatus(models.Model):
     status = models.CharField(max_length=50)
+    def __str__(self):
+        return self.status
 
 class Shop(models.Model):
     shop_name = models.CharField(max_length=50)
@@ -66,7 +68,7 @@ class Order(models.Model):
     order_price = models.DecimalField(max_digits=8, decimal_places=2)
 
     def __str__(self):
-        return self.id
+        return self.customer.username
 
 
 class OrderHistory(models.Model):
@@ -77,8 +79,9 @@ class OrderHistory(models.Model):
     def __str__(self):
         return str(self.user.username + ' ' + self.price)
 
-class OrderAndItem(models.Model):
-    orderitemnum = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='Orderid')
-    ordernum = models.ForeignKey(OrderHistory, on_delete=models.CASCADE, related_name='OrderHistory')
+class ShopPayment(models.Model):
+    vendor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='vendorid')
+    date = models.DateTimeField()
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='shopid')
     def __str__(self):
-        return self.id
+        return str(self.pk)
