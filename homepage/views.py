@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from .forms import AddShop, AddMenus, AddFoodCategory
 from datetime import datetime
+import sweetify
 from django.contrib.auth.models import User
 from users.models import Order,OrderStatus,Shop, ShopStatus, Menu, OrderHistory, FoodCategory, ShopPayment
 
@@ -22,6 +23,9 @@ def shopview(request,shopid=0):
                     orderupdate.save()
 
                 if 'returnshop' in request.POST:
+                    if Order.objects.filter(menu__item_shop__pk=Shop.objects.get(pk=shopid), order_status__status='cart'):
+                        sweetify.error(request, 'Complete your orders first before you close the shop!')
+                    Menu.objects.filter(item_shop=shopid).delete()
                     shopreturn = Shop.objects.get(pk=shopid)
                     shopreturn.vendor = None
                     shopreturn.shop_description = ''

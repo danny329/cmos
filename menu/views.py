@@ -86,8 +86,5 @@ def restuartant_view(request, res=0):
                 print(subtotal)
 
         return render(request, 'restuartant_view.html', context)
-    # else:
-        #     return redirect('/menu/restuartants/')
-
     except Exception as e:
         print(e)

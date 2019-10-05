@@ -23,15 +23,13 @@ def login(request):
                 if request.user.groups.filter(name=usergroup).exists():
                     sweetify.success(request, 'Log in Successful! \n hello, ' + str(request.user))
                     return redirect('/vendor_home/')
-
                 else:
                     sweetify.success(request, 'Log in Successful! \n hello, ' + str(request.user))
                     return redirect('/')
             else:
-                return redirect('/users/login/')
+                sweetify.error(request, 'User doesn\'t exist - register to CMOS ')
 
         return render(request, 'login.html')
-
     except Exception as e:
         print(e)
 
@@ -39,6 +37,8 @@ def register_verify(request):
     try:
         if request.user.is_authenticated:
             return redirect('/')
+        userg = Group.objects.all()
+        print(userg)
         if request.method == 'POST':
             full_name = request.POST['fullname']
             name = full_name.split(" ", 2)
@@ -46,7 +46,7 @@ def register_verify(request):
             try:
                 name[1].exists()
                 last_name = name[1]
-            except:
+            except Exception as e:
                 last_name = ''
             username = request.POST['username']
             email = request.POST['email']
@@ -56,9 +56,11 @@ def register_verify(request):
             user_type = request.POST['user_type']
             if password1 == password2:
                 if User.objects.filter(username=username).exists():
-                    print('username taken')
-                elif User.objects.filter(email=email).exists():
-                    print('email taken')
+                    sweetify.error(request, ' Username taken ')
+                    return render(request, 'register_form.html', {'userg': userg})
+                if User.objects.filter(email=email).exists():
+                    sweetify.error(request, ' Email already registered... ')
+                    return render(request, 'register_form.html', {'userg': userg})
                 else:
                     user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name,
                                                     email=email, password=password1)
@@ -67,16 +69,11 @@ def register_verify(request):
                     usergroup.user_set.add(user)
                     user.save()
                     userextend.save()
-
-                    print('user created')
-                return redirect('/')
+                    sweetify.success(request, 'User creation Successful!')
+                    return redirect('/users/login/')
             else:
-                print('password wrng')
-
-        else:
-            userg = Group.objects.all()
-            print(userg)
-            return render(request, 'register_form.html', {'userg': userg})
+                sweetify.error(request, 'password not matching ')
+        return render(request, 'register_form.html', {'userg': userg})
     except Exception as e:
         print(e)
 
