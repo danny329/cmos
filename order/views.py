@@ -1,36 +1,46 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render,redirect
-from users.models import Menu, Shop, FoodCategory, Order, OrderStatus , OrderHistory
-from datetime import datetime
+from users.models import Menu, Shop, FoodCategory, Order, OrderHistory
+from django.utils import timezone
+import sweetify
+
+
 # Create your views here.
 def customer_payment(request):
     try:
         if request.user.is_authenticated:
             if request.method == 'POST':
-                orderlist = Order.objects.filter(order_status=OrderStatus.objects.get(status='cart'),
+                if int(request.POST['price']) == 0:
+                    print('hehe')
+                    return redirect('/order/checkout/')
+
+                orderlist = Order.objects.filter(order_status='CART',
                                                  customer=request.user).order_by('menu__item_shop__pk', 'pk')
+
                 total = 0
                 for orderitem in orderlist:
                     total = total + orderitem.order_price
-                confirmed_order = OrderHistory.objects.create(customer=request.user, date=datetime.now(),
-                                                              price=total)
+
+                confirmed_order = OrderHistory.objects.create(customer = request.user,purchasedate = timezone.now(),price = total)
                 for orderitem in orderlist:
-                    orderitem.order_status = OrderStatus.objects.get(status='ordered')
+                    orderitem.order_status = 'ORDERED'
+                    print(orderitem.order_status)
                     orderitem.save()
+
                     confirmed_order.order.add(orderitem)
                 confirmed_order.save()
                 return redirect('/order/orders/')
-            orderlist = Order.objects.filter(order_status=OrderStatus.objects.get(status='cart'),
+            orderlist = Order.objects.filter(order_status='CART',
                                              customer=request.user).order_by('menu__item_shop__pk', 'pk')
             total = 0
             for orderitem in orderlist:
                 total = total + orderitem.order_price
             context={'total':total}
-            return render(request, 'customer_payment.html',context)
+            return render(request, 'customer_payment.html', context)
         else:
             return redirect('/')
     except Exception as e:
-        print('e')
+        print(e)
 
 
 def checkout(request):
@@ -62,10 +72,11 @@ def checkout(request):
                 if 'deleteitem' in request.POST:
                     try:
                         Order.objects.get(pk=request.POST['deleteitem']).delete()
+                        sweetify.info(request, 'one item removed',  timer=1000)
                     except Exception as e:
                         print(e)
 
-            ordertable = Order.objects.filter(order_status__status='cart', customer=request.user).order_by('menu__item_shop__pk', 'pk')
+            ordertable = Order.objects.filter(order_status='CART', customer=request.user).order_by('menu__item_shop__pk', 'pk')
             shop = ordertable.distinct('menu__item_shop').all()
             print(shop)
             for amt in ordertable:
@@ -82,10 +93,10 @@ def orders(request):
     try:
         if request.user.is_authenticated:
             orderhistory = OrderHistory.objects.filter(customer=request.user).order_by('pk')
-            ordertracking = Order.objects.filter(order_status=OrderStatus.objects.get(status='ordered'),
+            ordertracking = Order.objects.filter(order_status='ORDERED',
                                                  customer=request.user, orderhistory__in=orderhistory).order_by(
                 'menu__item_shop__pk', 'pk')
-            pastorders = Order.objects.filter(order_status=OrderStatus.objects.get(status='delivered'),
+            pastorders = Order.objects.filter(order_status='DELIVERED',
                                               customer=request.user, orderhistory__in=orderhistory).order_by(
                 'menu__item_shop__pk', 'pk')
             context = {'ordertracking': ordertracking, 'pastorders': pastorders, 'orderhistory': orderhistory}

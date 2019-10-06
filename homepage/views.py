@@ -1,9 +1,10 @@
 from django.shortcuts import render,redirect
 from .forms import AddShop, AddMenus, AddFoodCategory
-from datetime import datetime
+import random
+from django.utils import timezone
 import sweetify
 from django.contrib.auth.models import User
-from users.models import Order,OrderStatus,Shop, ShopStatus, Menu, OrderHistory, FoodCategory, ShopPayment
+from users.models import Order, Shop, Menu, OrderHistory, FoodCategory, ShopPayment, UserExtend
 
 # Create your views here.
 
@@ -14,25 +15,39 @@ def shopview(request,shopid=0):
     try:
         if request.user.is_authenticated:
             if request.method == 'POST':
+                if 'start' in request.POST:
+                    startshop = Shop.objects.get(pk=shopid)
+                    startshop.shop_state = "START"
+                    startshop.save()
+                    sweetify.success(request, startshop.shop_name +' available to accept orders!')
+
+                if 'pause' in request.POST:
+                    pauseshop = Shop.objects.get(pk=shopid)
+                    pauseshop.shop_state = "PAUSE"
+                    pauseshop.save()
+                    sweetify.warning(request, pauseshop.shop_name + ' will not accept any orders!')
+
                 if 'menudelete' in request.POST:
                     Menu.objects.get(pk=request.POST['menudelete']).delete()
 
                 if 'orderitem' in request.POST:
                     orderupdate = Order.objects.get(pk=int(request.POST['orderitem']))
-                    orderupdate.order_status = OrderStatus.objects.get(status='delivered')
+                    orderupdate.order_status = 'DELIVERED'
+                    orderupdate.deliverydate = timezone.now()
                     orderupdate.save()
 
                 if 'returnshop' in request.POST:
-                    if Order.objects.filter(menu__item_shop__pk=Shop.objects.get(pk=shopid), order_status__status='cart'):
+                    if Order.objects.filter(menu__item_shop__pk=Shop.objects.get(pk=shopid).pk, order_status='CART'):
                         sweetify.error(request, 'Complete your orders first before you close the shop!')
-                    Menu.objects.filter(item_shop=shopid).delete()
+                        return redirect('/vendor_home/')
                     shopreturn = Shop.objects.get(pk=shopid)
                     shopreturn.vendor = None
                     shopreturn.shop_description = ''
-                    shopreturn.shop_name = 'SHOP' + str(Shop.objects.all().count())
-                    shopreturn.shop_status = ShopStatus.objects.get(status='available')
+                    shopreturn.shop_name = 'SHOP' + str(int(random.random()*100))
+                    shopreturn.shop_status = 'AVAILABLE'
                     shopreturn.save()
                     return redirect('/vendor_home/')
+
                 addmenu = AddMenus(request.POST, request.FILES, initial={'item_shop': Shop.objects.get(pk=shopid).pk})
                 addmenu.fields['item_shop'].disabled = True
                 if addmenu.is_valid():
@@ -46,13 +61,15 @@ def shopview(request,shopid=0):
                 if shopdetails.is_valid():
                     shopdetails.save()
 
+
+
             addmenu = AddMenus(initial={'item_shop': Shop.objects.get(pk=shopid).pk})
             addmenu.fields['item_shop'].disabled = True
-
             shopdetails = AddShop(instance=Shop.objects.get(pk=shopid))
             addfoodcategory = AddFoodCategory()
 
             orders = Order.objects.filter(menu__item_shop__pk=Shop.objects.get(pk=shopid).pk)
+            print(orders)
 
             orderhistory = OrderHistory.objects.all()
 
@@ -98,11 +115,11 @@ def payment(request, id=0):
     try:
         shop = Shop.objects.get(pk=id)
         if request.method == 'POST':
-            paymenttable = ShopPayment.objects.create(vendor=request.user, date=datetime.now(),
+            paymenttable = ShopPayment.objects.create(vendor=request.user, purchasedate=timezone.now(),
                                                      shop=Shop.objects.get(pk=id))
             paymenttable.save()
             shop.vendor = request.user
-            shop.shop_status = ShopStatus.objects.get(status='sold')
+            shop.shop_status = 'SOLD'
             shop.save()
 
             return redirect('/vendor_home/')
@@ -116,17 +133,17 @@ def payment(request, id=0):
 
 
 def shopplus(request):
-
+    shops = Shop.objects.filter(shop_status='AVAILABLE').order_by('pk')
+    print(shops)
+    context = {'shops': shops}
     if request.method == 'POST':
         if 'shoppurchase' in request.POST:
+            if UserExtend.objects.get(userref=request.user).acceptance=='DENY':
+                sweetify.error(request, 'Permission Denied! \n contact Adminstration.')
+                return render(request, 'shopplus.html', context)
             shop = Shop.objects.get(pk=request.POST['shoppurchase'])
             context = {'shop': shop}
-            return render(request,'payment.html', context)
-    else:
-        print('e')
-
-    shops= Shop.objects.filter(shop_status=ShopStatus.objects.get(status='available')).order_by('pk')
-    context ={'shops': shops}
+            return render(request, 'payment.html', context)
     return render(request, 'shopplus.html', context)
 
 
@@ -148,13 +165,13 @@ def vendor_orderlist(request):
         if 'orderitem' in request.POST:
             print(request.POST['orderitem'])
             order = Order.objects.get(pk=request.POST['orderitem'])
-            order.order_status = OrderStatus.objects.get(status='delivered')
+            order.order_status = 'DELIVERED'
             order.save()
 
     else:
         print(request.user.pk)
         shop = Shop.objects.filter(vendor=request.user)
-    orders = Order.objects.filter(order_status=OrderStatus.objects.get(status='ordered'),
+    orders = Order.objects.filter(order_status='ORDERED',
                                       menu__item_shop__vendor__pk=request.user.pk)
     context = {'orders': orders,'shop':shop}
     return render(request, 'vendor_orderlist.html', context)

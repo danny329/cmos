@@ -25,6 +25,7 @@
 <form method="post"  name="form1" action="/menu/restuartants/">{% csrf_token%}
 	<div class="row">
 	{% for shop in shops %}
+		{%if shop.shop_state == "START"%}
 	<div class="col-sm-3">
 		<div class="card border border " id="card" style="width: 16rem;">
 			<input class="shop_radio  border"  type='radio'  value='{{shop.pk}}' name='shop_select' id="radio1" />
@@ -37,6 +38,20 @@
 		  </div>
 		</div>
 	</div>
+		{%else%}
+		<div class="col-sm-3">
+			<h2 style="position:absolute;z-index:3;margin-top:80px;" class="p-2 m-5 border text-center text-white font-weight-bold">SHOP CLOSED</h2>
+		<div class="card border border "  style="width: 16rem;"><div class="bg-secondary" style="position:absolute; opacity:0.3;width:16rem;height:15.4rem;"></div>
+			<img class="card-img-top" style="width:16rem;height:10rem;" src="{{shop.shop_image.url}}" alt="Card image cap">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-sm-12" style="padding-left:1px; "><h5 style="display:inline;">{{shop.shop_name}}</h5></div>
+					<div class="col-sm-12" style="padding-left:1.5px;"><h6 style="display:inline;">{{shop.shop_description}}</h6></div>
+				</div>
+		  </div>
+		</div>
+	</div>
+		{%endif%}
 	{% empty %}
 		<p class="mx-auto text-center">Sorry, no selection to display.</p>
 	</div>

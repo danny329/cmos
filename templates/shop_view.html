@@ -4,7 +4,25 @@
 {% include 'navbar_vendor.html' %}
 {% load crispy_forms_tags %}
 <section class="container-fluid w-100 p-3 pl-5 pr-5">
-    <h2 class="text-center mt-3 bg-light p-3 border font-weight-bold text-uppercase">{{shopobj.shop_name}} details</h2>
+    <div class="row mb-3">
+        <div class="col-sm-3"></div>
+        <div class="text-center mt-3 bg-light p-3 font-weight-bold text-uppercase col-sm-3">
+           <h2>{{shopobj.shop_name}} details</h2>
+        </div>
+    <form action="/shopview/{{shopobj.pk}}/" method="post" class="col-sm-3 pt-3 mt-3 bg-light ">{%csrf_token%}
+        <h6 style="display:inline;" >SHOP STATE</h6>
+        {% if shopobj.shop_state == 'START'%}
+            <h6 style="display:inline;" class="pl-1 pr-3">Running</h6>
+            <input type="hidden" name="pause">
+            <button type="submit" class="btn bg-light border"><img src="https://img.icons8.com/color/30/000000/pause.png"></button>
+        {%else%}
+            <h6 style="display:inline;" class="pl-1 pr-3">Paused</h6>
+            <input type="hidden" name="start">
+            <button type="submit" class="btn bg-light border"><img src="https://img.icons8.com/color/30/000000/circled-play--v1.png"></button>
+        {%endif%}
+    </form>
+
+        </div>
     <div class="row ">
       <div class="col-3 mt-5 px-5">
         <div class="list-group " id="list-tab" role="tablist">
@@ -29,15 +47,15 @@
                   <div class="tab-pane fade show active" id="list-viewmenu" role="tabpanel" aria-labelledby="list-viewmenu-list">
                       <div class="row w-100 mx-auto" style="height:500px;">
                         {% for menu in menus%}
-                        <div class="col-sm-3 border m-5 bg-warning mx-auto p-0" style="height:290px;">
+                        <div class="col-sm-3 border my-3 mx-3 bg-warning p-0" style="height:290px;">
                             <img src="{{menu.item_image.url}}" class="col-sm-12 m-0 p-0 " style="width:250px;height:150px;">
                             <div class="row pl-2">
                                 <div class="col-sm-1 m-0"><img src="{{menu.item_vegornonveg.image.url}}" class="mt-2 pl-0" style="width:12px;height:12px;"></div>
                                 <div class="col-sm-10 p-0 mt-1 text-uppercase"><h6>{{menu.item_name}}</h6></div>
                             </div>
-                            <div class="col-sm-12 bg-white pl-2">
+                            <div class="col-sm-12 bg-white pl-2 pt-2">
+                                <h6 style="font-size:11px;" class="text-lowercase bg-info rounded text-white p-2">{{menu.item_desc}}</h6>
                                 <h6 class="text-lowercase" >{{menu.item_food_category}}</h6>
-                                <h6 style="font-size:11px;" class="text-lowercase bg-info rounded pl-2">{{menu.item_desc}}</h6>
                                 <h6>Rs. {{menu.item_price}}</h6>
                             </div>
                             <form method="post" action="/shopview/{{shopobj.pk}}/" >{%csrf_token%}
@@ -75,7 +93,6 @@
                 <div class="list-group list-group-horizontal  text-center" id="list-tab-order" role="tablist">
                   <a class="list-group-item list-group-item-action" id="list-vieworders-list" data-toggle="list" href="#list-vieworders" role="tab" aria-controls="vieworders">VIEW ORDERS</a>
                   <a class="list-group-item list-group-item-action" id="list-orderhistory-list" data-toggle="list" href="#list-orderhistory" role="tab" aria-controls="orderhistory">ALL ORDERS</a>
-
                 </div>
               </div>
               <div class="col-12">
@@ -85,7 +102,7 @@
                         <div class="col-sm-4  p-0 mb-3 mx-auto ">
                             {%for orders in orderhistory %}
                             {%for order in orders.order.all %}
-                            {% if order.menu.item_shop.pk == shopobj.pk and order.order_status.pk == 2 %}
+                            {% if order.menu.item_shop.pk == shopobj.pk and order.order_status == 'ORDERED' %}
                                 <div class="row   mx-auto p-0 m-0">
                                     <div class=" mt-1 mb-1 col-sm-4 p-0">
                                         <img src="{{order.menu.item_image.url}}" width="100px" height="140px"  alt="image">
@@ -94,7 +111,7 @@
                                         <h6  style="font-size:12px;" class="mt-1 text-uppercase font-weight-bold">CUST : {{order.customer.username}}</h6>
                                         <h6  style="font-size:12px;">QTY : {{order.order_quantity}}</h6>
                                         <h6  style="font-size:12px;">PRICE : {{order.order_price}}</h6>
-                                        <h6  style="font-size:12px;">DOP : {{orders.date}}</h6>
+                                        <h6  style="font-size:12px;">DOP : {{orders.purchasedate}}</h6>
                                         <h6  style="font-size:12px;" class="bg-warning">Status : {{order.order_status}}</h6>
                                          <form action="/shopview/{{shopobj.pk}}/" method="post" >
                                             {%csrf_token%}
@@ -115,7 +132,7 @@
                             <div class="col-sm-4  p-0 mb-3 mx-auto ">
                             {%for orders in orderhistory %}
                             {%for order in orders.order.all %}
-                            {% if order.menu.item_shop.pk == shopobj.pk and order.order_status.pk == 3 %}
+                            {% if order.menu.item_shop.pk == shopobj.pk and order.order_status == 'DELIVERED'%}
                                 <div class="row   mx-auto p-0 ">
                                     <div class=" mt-1 mb-1 col-sm-4 p-0">
                                         <img src="{{order.menu.item_image.url}}" width="100px" height="110px"  alt="image">
@@ -124,7 +141,8 @@
                                         <h6  style="font-size:12px;" class="mt-1 text-uppercase font-weight-bold">CUST : {{order.customer.username}}</h6>
                                         <h6  style="font-size:12px;">QTY : {{order.order_quantity}}</h6>
                                         <h6  style="font-size:12px;">PRICE : {{order.order_price}}</h6>
-                                        <h6  style="font-size:12px;">DOP : {{orders.date}}</h6>
+                                        <h6  style="font-size:12px;">DOP : {{orders.purchasedate}}</h6>
+                                        <h6  style="font-size:12px;">DOD : {{order.deliverydate}}</h6>
                                         <h6  style="font-size:12px;" class="bg-warning">Status : {{order.order_status}}</h6>
                                     </div>
                                 </div>

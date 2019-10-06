@@ -2,7 +2,7 @@ import csv
 from django.http import HttpResponse
 from django.contrib import admin
 from django.contrib.auth.models import User, Group
-from .models import UserExtend,Menu,VegOrNonVeg,Shop,FoodCategory, OrderStatus, ShopStatus, ShopPayment
+from .models import UserExtend,Menu,VegOrNonVeg,Shop,FoodCategory, ShopPayment
 # Register your models here.
 admin.site.unregister(Group)
 admin.site.site_header = 'CMOS Admin Page'
@@ -27,10 +27,10 @@ class ExportCsvMixin:
     export_as_csv.short_description = "Export Selected"
 
 class ShopPaymentAdmin(admin.ModelAdmin, ExportCsvMixin):
-    list_display = ['vendor', 'date', 'shop']
+    list_display = ['vendor', 'purchasedate', 'shop']
     # list_editable = ['status']
     # search_fields = ['user', 'cloth_menu']
-    list_filter = ['vendor', 'shop', 'date']
+    list_filter = ['vendor', 'shop', 'purchasedate']
 
     actions = ["export_as_csv"]
 
@@ -73,8 +73,7 @@ class ShopAdmin(admin.ModelAdmin, ExportCsvMixin):
 
     export_as_csv.short_description = "Export Selected"
 
-admin.site.register(ShopStatus)
+
 admin.site.register(Shop, ShopAdmin)
-admin.site.register(OrderStatus)
 admin.site.register(VegOrNonVeg)
 admin.site.register(ShopPayment, ShopPaymentAdmin)

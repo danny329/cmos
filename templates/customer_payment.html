@@ -27,6 +27,7 @@
             <div class="payment">
 
                 <form action="/order/customer_payment/" id="form1" method="post">{% csrf_token %}
+                    <input type="hidden" name="price" value="{{total}}">
                     <div class="form-group owner">
                         <label for="owner">Owner</label>
                         <input type="text" class="form-control" id="owner">

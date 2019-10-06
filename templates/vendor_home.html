@@ -7,8 +7,8 @@
 <style>
     .radiobtn{
     transform: scale(1);
-    width:275px;
-    height:260px;
+    width:180px;
+    height:200px;
     margin-left:-100px;
     position : absolute;
     z-index: 1;
@@ -17,13 +17,23 @@
 </style>
 <section class="container">
     <h2 class="mx-auto py-3 pl-0">Shops You Own</h2>
-    <form name="formshop" action="/vendor_home/" method="post" class="w-100  row mt-3">{%csrf_token%}
+    <form name="formshop" action="/vendor_home/" method="post" class="row mt-2">{%csrf_token%}
         {% for item in shop %}
-         <div class="col-sm-3 border m-2  p-0">
+         <div class="col-sm-2 border mx-3 p-1 mb-3">
+             <div style="position:absolute;z-index:3;">
+                 {% if item.shop_state == 'START'%}
+                 <img src="https://img.icons8.com/color/30/000000/circled-play--v1.png">
+                 {%else%}
+                    <img src="https://img.icons8.com/color/30/000000/pause.png">
+                {%endif%}
+             </div>
             <input type="radio" name="shopobj" class="radiobtn m-0 p-0" value="{{item.pk}}" >
-            <div class="col-sm-12 bg-light m-0 p-0"><img class="m-0 p-0" src="{{item.shop_image.url}}" height="200px" width="275px"></div>
-            <div class="col-sm-12"><h4>{{item.shop_name}}</h4></div>
-            <div class="col-sm-12"><h6>{{item.shop_description}}</h6></div>
+            <div class="col-sm-12 bg-light m-0 p-0"><img class="m-0 p-0" src="{{item.shop_image.url}}" height="130px" width="180px"></div>
+            <div class="col-sm-12 mt-2">
+                <h4>{{item.shop_name}}</h4>
+                <h6>{{item.shop_description}}</h6>
+            </div>
+
         </div>
         {% endfor %}
     </form>

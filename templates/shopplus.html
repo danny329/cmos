@@ -1,12 +1,12 @@
 {% include 'com.html'%}
 {% include 'navbar_vendor.html' %}
 <h2 class="text-center">SHOP PURCHASE</h2>
-<div class="row mx-auto mt-3">
+<div class="row mx-auto mt-3 px-5">
     {%for shop in shops%}
 
-    <div class="col-sm-2 border m-0 p-0 mx-auto">
-        <div class="mx-auto"><img src="{{shop.shop_image.url}}" width="226px" height="150px" ></div>
-        <div class="col-sm-12 mb-2">
+    <div class="col-md-2 border m-3 p-0 ">
+        <div class="mx-auto"><img src="{{shop.shop_image.url}}" width="207px" height="150px" ></div>
+        <div class="col-sm-12 mb-2 pt-3 ">
             <h6>NAME : {{shop.shop_name}}</h6>
             <h6>DESC : {{shop.shop_description}}</h6>
             <h6>PRICE :{{shop.shop_price}}</h6>
@@ -16,8 +16,6 @@
                 <input type="submit" value="purchase" class="btn btn-success btn-sm col-sm-12">
             </form>
         </div>
-
-
     </div>
     {% empty %}
     <h5 class="text-center mx-auto">no shops currently available for purchase</h5>

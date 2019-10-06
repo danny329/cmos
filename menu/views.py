@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
-from users.models import Menu,Shop, FoodCategory, Order, OrderStatus,ShopStatus
+from users.models import Menu,Shop, FoodCategory, Order
+import sweetify
 # Create your views here.
 
 def category(request):
@@ -20,7 +21,7 @@ def menu(request):
 
 def restuartants(request):
     try:
-        shops = Shop.objects.filter(shop_status__status='sold')
+        shops = Shop.objects.filter(shop_status='SOLD').order_by('-shop_state')
         context = {'shops': shops}
         if request.method == 'POST':
             if 'shop_select' in request.POST:
@@ -37,17 +38,21 @@ def restuartant_view(request, res=0):
         if request.method == 'POST':
             if request.user.is_authenticated:
                 if 'menu_item_pk' in request.POST:
-                    if Order.objects.filter(customer=request.user, order_status=OrderStatus.objects.get(status='cart'),menu=Menu.objects.get(pk=request.POST['menu_item_pk'])).exists():
-                        cart = Order.objects.get(customer=request.user,order_status=OrderStatus.objects.get(status='cart'), menu=Menu.objects.get(pk=request.POST['menu_item_pk']))
+                    if Order.objects.filter(customer=request.user, order_status='CART', menu=Menu.objects.get(pk=request.POST['menu_item_pk'])).exists():
+                        cart = Order.objects.get(customer=request.user,order_status='CART', menu=Menu.objects.get(pk=request.POST['menu_item_pk']))
                         cart.order_quantity = cart.order_quantity + 1
                     else:
                         cart = Order()
                         cart.customer = request.user
                         cart.menu = Menu.objects.get(pk=request.POST['menu_item_pk'])
                         cart.order_quantity = 1
-                        cart.order_status = OrderStatus.objects.get(status='cart')
+                        cart.order_status = 'CART'
+                        cart.menu_name = Menu.objects.get(pk=request.POST['menu_item_pk']).item_name
+                        cart.menu_image = Menu.objects.get(pk=request.POST['menu_item_pk']).item_image
+                        cart.order_vendor = Menu.objects.get(pk=request.POST['menu_item_pk']).item_shop.shop_name
                     cart.order_price = Menu.objects.get(pk=request.POST['menu_item_pk']).item_price * cart.order_quantity
                     cart.save()
+                    sweetify.success(request, cart.menu_name + ' added', timer=1200)
                 if 'quantity_minus' in request.POST:
                     try:
                         cart = Order.objects.get(pk=request.POST['quantity_minus'])
@@ -75,15 +80,16 @@ def restuartant_view(request, res=0):
 
         shop = Shop.objects.get(pk=res)
 
-        context = {'menus': menus, 'shop': shop, 'category': category, 'subtotal': subtotal}
+        context = {'menus': menus, 'shop': shop, 'category': category}
 
         if request.user.is_authenticated:
-            ordertable = Order.objects.filter(order_status__status='cart',customer=request.user).order_by('pk')
+            ordertable = Order.objects.filter(order_status='CART', customer=request.user).order_by('pk')
             context['ordertable'] = ordertable
 
             for amt in ordertable:
                 subtotal = subtotal + amt.order_price
                 print(subtotal)
+        context['subtotal'] = subtotal
 
         return render(request, 'restuartant_view.html', context)
     except Exception as e:

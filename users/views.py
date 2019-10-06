@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth, Group
 from .models import UserExtend
 import sweetify
-from django.views.generic.edit import UpdateView
 from homepage.views import shopplus
 
 
@@ -66,6 +65,8 @@ def register_verify(request):
                                                     email=email, password=password1)
                     usergroup = Group.objects.get(name=user_type)
                     userextend = UserExtend.objects.create(userref=user, gender=gender)
+                    if user_type == 'vendor':
+                        userextend.acceptance = 'DENY'
                     usergroup.user_set.add(user)
                     user.save()
                     userextend.save()
