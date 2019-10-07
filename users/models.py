@@ -44,6 +44,7 @@ class Shop(models.Model):
 
 class FoodCategory(models.Model):
     food_category_name = models.CharField(max_length=50)
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='category_shop')
 #starter,quickbites,dessert,Beverages
     def __str__(self):
         return self.food_category_name
@@ -57,6 +58,10 @@ class VegOrNonVeg(models.Model):
         return self.name
 
 class Menu(models.Model):
+    MENUSTATE=[
+        ('AVAILABLE', 'available'),
+        ('REMOVED', 'removed')
+    ]
     item_name = models.CharField(max_length=50)
     item_image = models.ImageField(upload_to='pics/MenuImage', null=True, blank=True)
     item_desc = models.CharField(max_length=50, null=True, blank=True)
@@ -64,6 +69,7 @@ class Menu(models.Model):
     item_vegornonveg = models.ForeignKey(VegOrNonVeg, on_delete=models.CASCADE,related_name='item_vegornonveg')
     item_food_category = models.ForeignKey(FoodCategory, on_delete=models.CASCADE, related_name='item_category')
     item_shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='item_shop',null=True, blank=True)
+    item_state = models.CharField(max_length=10, choices=MENUSTATE, default='AVAILABLE')
 
     def __str__(self):
         return self.item_name
@@ -73,7 +79,7 @@ class Order(models.Model):
         ('CART', 'cart'),
         ('ORDERED', 'ordered'),
         ('DELIVERED', 'delivered'),
-        ('CANCELED', 'canceled')
+        ('CANCELLED', 'cancelled')
     ]
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='customer')
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE, related_name='menu',null=True, blank=True)

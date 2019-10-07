@@ -9,7 +9,7 @@ class AddShop(forms.ModelForm):
 class AddFoodCategory(forms.ModelForm):
     class Meta:
         model = FoodCategory
-        fields = ['food_category_name']
+        fields = ['food_category_name', 'shop']
 
 class AddMenus(forms.ModelForm):
     class Meta:

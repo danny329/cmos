@@ -10,7 +10,8 @@ def customer_payment(request):
     try:
         if request.user.is_authenticated:
             if request.method == 'POST':
-                if int(request.POST['price']) == 0:
+                print(request.POST['price'])
+                if float(request.POST['price']) < 1:
                     print('hehe')
                     return redirect('/order/checkout/')
 
@@ -92,14 +93,15 @@ def checkout(request):
 def orders(request):
     try:
         if request.user.is_authenticated:
-            orderhistory = OrderHistory.objects.filter(customer=request.user).order_by('pk')
-            ordertracking = Order.objects.filter(order_status='ORDERED',
-                                                 customer=request.user, orderhistory__in=orderhistory).order_by(
-                'menu__item_shop__pk', 'pk')
-            pastorders = Order.objects.filter(order_status='DELIVERED',
-                                              customer=request.user, orderhistory__in=orderhistory).order_by(
-                'menu__item_shop__pk', 'pk')
-            context = {'ordertracking': ordertracking, 'pastorders': pastorders, 'orderhistory': orderhistory}
+            if request.method == 'POST':
+                if 'cancel' in request.POST:
+                    cancel = Order.objects.get(pk=request.POST['cancel'])
+                    cancel.order_status = 'CANCELLED'
+                    cancel.save()
+                    sweetify.success(request,' item has been cancelled')
+            orderhistory = OrderHistory.objects.filter(customer=request.user).order_by('-pk')
+            ordertracking = Order.objects.filter(customer=request.user).order_by('menu__item_shop__pk', '-pk')
+            context = {'ordertracking': ordertracking, 'orderhistory': orderhistory}
             return render(request, 'orders.html', context)
         else:
             return redirect('/')

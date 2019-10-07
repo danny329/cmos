@@ -11,7 +11,7 @@ from users.models import Order, Shop, Menu, OrderHistory, FoodCategory, ShopPaym
 def index(request):
     return render(request, 'index.html')
 
-def shopview(request,shopid=0):
+def shopview(request, part='', subpart='', shopid=0):
     try:
         if request.user.is_authenticated:
             if request.method == 'POST':
@@ -28,7 +28,15 @@ def shopview(request,shopid=0):
                     sweetify.warning(request, pauseshop.shop_name + ' will not accept any orders!')
 
                 if 'menudelete' in request.POST:
-                    Menu.objects.get(pk=request.POST['menudelete']).delete()
+                    if Shop.objects.get(pk=shopid).shop_state == 'PAUSE':
+                        if Order.objects.filter(menu=Menu.objects.get(pk=request.POST['menudelete']), order_status='ORDERED'):
+                            sweetify.warning(request, 'Complete the order related to this item before removing it.')
+                        else:
+                            remove = Menu.objects.get(pk=request.POST['menudelete'])
+                            remove.item_state = 'REMOVED'
+                            remove.save()
+                    else:
+                        sweetify.warning(request,'Shop have to be in PAUSE state to remove any item.')
 
                 if 'orderitem' in request.POST:
                     orderupdate = Order.objects.get(pk=int(request.POST['orderitem']))
@@ -53,33 +61,74 @@ def shopview(request,shopid=0):
                 if addmenu.is_valid():
                    addmenu.save()
 
-                addfoodcategory = AddFoodCategory(request.POST)
+                addfoodcategory = AddFoodCategory(request.POST, initial={'shop': Shop.objects.get(pk=shopid).pk})
+                addfoodcategory.fields['shop'].disabled = True
                 if addfoodcategory.is_valid():
                     addfoodcategory.save()
 
                 shopdetails = AddShop(request.POST, request.FILES, instance=Shop.objects.get(pk=shopid))
                 if shopdetails.is_valid():
                     shopdetails.save()
-
-
+                    changes = Order.objects.filter(menu__item_shop__pk=shopid)
+                    for item in changes:
+                        item.order_vendor = Shop.objects.get(pk=shopid).shop_name
+                        item.save()
 
             addmenu = AddMenus(initial={'item_shop': Shop.objects.get(pk=shopid).pk})
             addmenu.fields['item_shop'].disabled = True
             shopdetails = AddShop(instance=Shop.objects.get(pk=shopid))
-            addfoodcategory = AddFoodCategory()
+            addfoodcategory = AddFoodCategory(initial={'shop': Shop.objects.get(pk=shopid).pk})
+            addfoodcategory.fields['shop'].disabled = True
 
             orders = Order.objects.filter(menu__item_shop__pk=Shop.objects.get(pk=shopid).pk)
-            print(orders)
+
 
             orderhistory = OrderHistory.objects.all()
 
             shopobj = Shop.objects.get(pk=shopid)
 
-            menus = Menu.objects.filter(item_shop__pk=shopid)
+            menus = Menu.objects.filter(item_shop__pk=shopid,item_state='AVAILABLE')
 
-            categorylist = FoodCategory.objects.all()
+            categorylist = FoodCategory.objects.filter(shop__pk=shopid)
 
             context = {'shopobj': shopobj, 'menus': menus, 'addmenu': addmenu, 'orders': orders, 'orderhistory': orderhistory, 'categorylist': categorylist, 'addfoodcategory' : addfoodcategory, 'shopdetails': shopdetails}
+            print(part, subpart)
+            if part == 'listmenulist' or part == '':
+                context['listmenulist'] = 'show active'
+
+            if part == 'listorderslist':
+                context['listorderslist'] = 'show active'
+
+            if part == 'listcategorylist':
+                context['listcategorylist'] = 'show active'
+
+            if part == 'listshopsettingslist':
+                context['listshopsettingslist'] = 'show active'
+
+            if subpart == 'listviewmenulist' or subpart == '':
+                context['listviewmenulist'] = 'show active'
+
+            if subpart == 'listaddmenulist':
+                context['listaddmenulist'] = 'show active'
+
+            if subpart == 'listvieworderslist':
+                context['listvieworderslist'] = 'show active'
+
+            if subpart == 'listorderhistorylist':
+                context['listorderhistorylist'] = 'show active'
+
+            if subpart == 'listviewcategorylist':
+                context['listviewcategorylist'] = 'show active'
+
+            if subpart == 'listaddcategorylist':
+                context['listaddcategorylist'] = 'show active'
+
+
+
+
+
+
+
 
             return render(request, 'shop_view.html', context)
         else:
@@ -105,7 +154,7 @@ def vendor_home(request):
     if request.method == 'POST':
         if 'shopobj' in request.POST:
             shopobj = Shop.objects.get(pk=request.POST['shopobj'])
-            return shopview(request, shopobj.pk)
+            return shopview(request, 'listmenulist', 'listviewmenulist', shopobj.pk)
     else:
         print('e')
     return render(request, 'vendor_home.html', context)

@@ -12,7 +12,7 @@ def category(request):
 
 def menu(request):
     try:
-        menus = Menu.objects.all()
+        menus = Menu.objects.filter(item_state='AVAILABLE')
         context = {'category': menus}
         return render(request, 'menu.html', context)
     except Exception as e:
@@ -73,6 +73,8 @@ def restuartant_view(request, res=0):
                             cart.save()
                     except Exception as e:
                         print(e)
+            else:
+                sweetify.error(request, 'must login to the system to add to cart.')
 
         menus = Menu.objects.filter(item_shop=Shop.objects.get(pk=res))
         print(res)

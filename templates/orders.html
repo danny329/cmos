@@ -3,46 +3,69 @@
 {% include 'com.html' %}
 {% include 'navbar.html' %}
 
-<div class="container border mt-3 mx-auto ">
+<div class="container  mt-3 mx-auto p-0">
      {% for orders in orderhistory %}
-        <p class="text-center">order number : {{orders.pk}}</p>
+    <div class="mx-auto bg-light  border mt-2 p-2"><p class="btn btn-primary p-1 text-center text-white font-weight-bold">ODNO{{orders.pk}}</p></div>
         {% for item in orders.order.all %}
             {% for items in ordertracking%}
                 {% if items.pk == item.pk %}
-                    <div class="col-sm-4 mb-3 mx-auto ">
-                        <div class="row  border mx-auto">
-                            <div class=" mt-1 mb-1 col-sm-4 p-0">
-                                <img src="{{item.menu.item_image.url}}" width="110px" height="135px"  alt="image">
+                    <div class="col-sm-12  mx-auto p-0">
+                        <div class="row  border border-top-0 mx-auto">
+                            <div class="col-sm-1 m-3 p-0">
+                                <img src="{{item.menu_image.url}}" class="my-auto p-0" width="90px" height="90px"  alt="image">
                             </div>
-                            <div class="col-sm-8 bg-light">
-                                <h6 class="mt-1 text-uppercase font-weight-bold">{{item.menu.item_name}}</h6>
-                                <h6>QTY : {{item.order_quantity}}</h6>
-                                <h6>PRICE : {{item.order_price}}</h6>
-                                <h6>DOP : {{orders.purchasedate}}</h6>
-                                <h6 class="bg-warning">Status : {{item.order_status}}</h6>
+                            <div class="col-sm-4 px-2 py-2">
+                                <h5 class="mt-1 text-uppercase font-weight-bold">{{item.menu_name}}</h5>
+                                <h6>seller : {{item.order_vendor}}</h6>
+                                <h6>qty : {{item.order_quantity}}</h6>
                             </div>
+                            <div class="col-sm-1 px-2 py-3">
+                                <h6><i class="fa fa-rupee" style="font-size:14px"></i> {{item.order_price}}</h6>
+                            </div>
+                            <div class="col-sm-3 px-2 py-3">
+                                {% if item.order_status == 'DELIVERED'  %}
+                                    <h6>Delivered on {{item.deliverydate}}</h6>
+                                    <h6 class="font-weight-light text-secondary" style="font-size:12px;">Your item has been delivered</h6>
+                                {%elif item.order_status == 'ORDERED' %}
+                                     <h6>Order is in progress.</h6>
+                                {%else %}
+                                    <h6>Cancelled</h6>
+                                    <h6 class="font-weight-light text-secondary" style="font-size:12px;">As per your request, your item has been cancelled</h6>
+                                {%endif%}
+
+                            </div>
+                            {%if item.order_status == 'ORDERED' %}
+                            <div class="col-sm-2 px-2 py-3">
+                                <form action="/order/orders/" method="post">{%csrf_token%}
+                                    <input type="hidden" name="cancel" value="{{item.pk}}">
+                                    <button type="submit" class="btn btn-sm bg-primary text-white">
+                                        <svg width="22" height="22" xmlns="http://www.w3.org/2000/svg">
+
+ <title/>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="302" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <circle stroke-width="2px" stroke-linejoin="round" stroke="#ffffff" fill="none" id="svg_1" r="8" cy="11" cx="11" class="cls-1"/>
+  <line stroke-width="2px" stroke-linejoin="round" stroke="#ffffff" fill="none" id="svg_2" y2="14" y1="8" x2="14" x1="8" class="cls-1"/>
+  <line stroke-width="2px" stroke-linejoin="round" stroke="#ffffff" fill="none" id="svg_3" y2="14" y1="8" x2="8" x1="14" class="cls-1"/>
+ </g>
+</svg>
+                                        Cancel Item</button>
+                                </form>
+                            </div>
+                            {%endif%}
                         </div>
                     </div>
                 {% endif%}
             {% endfor%}
-            {% for items in pastorders%}
-                {% if items.pk == item.pk %}
-                    <div class="col-sm-4 mb-3 mx-auto ">
-        <div class="row  border mx-auto">
-            <div class=" mt-1 mb-1 col-sm-4 p-0">
-                <img src="{{item.menu.item_image.url}}" width="110px" height="135px"  alt="image">
-            </div>
-            <div class="col-sm-8 bg-light">
-                <h6 class="mt-1 text-uppercase font-weight-bold">{{item.menu.item_name}}</h6>
-                <h6>QTY : {{item.order_quantity}}</h6>
-                <h6>PRICE : {{item.order_price}}</h6>
-                <h6>DOP : {{orders.date}}</h6>
-                <h6 class="bg-success">Status : {{item.order_status}}</h6>
-            </div>
-        </div>
-    </div>
-                {% endif%}
-            {% endfor%}
         {% endfor %}
+    <div class="row  mx-auto">
+        <div class="col-sm-6 border border-top-0 border-right-0 py-2 pr-3"><h6><span class="text-secondary">Ordered On</span> {{orders.purchasedate}}</h6></div>
+        <div class="col-sm-6 border border-top-0 border-left-0 py-2 pl-3 text-right"><h6><span class="text-secondary">Order Total  </span><i class="fa fa-rupee" style="font-size:14px"></i> {{orders.price}}</h6></div>
+    </div>
+
     {% endfor %}
 </div>
