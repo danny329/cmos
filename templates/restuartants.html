@@ -4,10 +4,9 @@
 {% include 'navbar.html' %}
    <style>
        .shop_radio{
-            transform: scale(1.2);
-            width:140px;
-            margin-left:55px;
-            height:245px;
+            transform: scale(1);
+            width:100%;
+            height:100%;
             position:absolute;
             z-index: 1;
             opacity: 0.0;
@@ -18,37 +17,36 @@
        {
             border:0.5px solid red;
        }
+section::-webkit-scrollbar {
+  width: 1px;
+}
 
+section::-webkit-scrollbar-thumb {
+  background: black;
+  border-radius: 50px;
+  opacity : 0.0;
+}
 
     </style>
-<section class="p-3 container mt-4" style="height:700px;">
+<section class="p-3 container mt-4" style="height:85%; overflow-y: scroll;">
 <form method="post"  name="form1" action="/menu/restuartants/">{% csrf_token%}
 	<div class="row">
 	{% for shop in shops %}
 		{%if shop.shop_state == "START"%}
-	<div class="col-sm-3">
-		<div class="card border border " id="card" style="width: 16rem;">
-			<input class="shop_radio  border"  type='radio'  value='{{shop.pk}}' name='shop_select' id="radio1" />
-			<img class="card-img-top" style="width:16rem;height:10rem;" src="{{shop.shop_image.url}}" alt="Card image cap">
-			<div class="card-body">
-				<div class="row">
-					<div class="col-sm-12" style="padding-left:1px; "><h5 style="display:inline;">{{shop.shop_name}}</h5></div>
-					<div class="col-sm-12" style="padding-left:1.5px;"><h6 style="display:inline;">{{shop.shop_description}}</h6></div>
-				</div>
-		  </div>
+		<div class="col-sm-2 border p-0 m-2">
+			<input class="shop_radio p-0"  type='radio'  value='{{shop.pk}}' name='shop_select' id="radio1" />
+			<img class="p-0" style="width:100%;height:155px;" src="{{shop.shop_image.url}}" alt="Card image cap">
+			<div class="col-sm-12 pl-1 pt-1"><h5 >{{shop.shop_name}}</h5></div>
+			<div class="col-sm-12 pl-1"><h6 style="font-size:10px;" >{{shop.shop_description}}</h6></div>
 		</div>
-	</div>
+
 		{%else%}
-		<div class="col-sm-3">
-			<h2 style="position:absolute;z-index:3;margin-top:80px;" class="p-2 m-5 border text-center text-white font-weight-bold">SHOP CLOSED</h2>
-		<div class="card border border "  style="width: 16rem;"><div class="bg-secondary" style="position:absolute; opacity:0.3;width:16rem;height:15.4rem;"></div>
-			<img class="card-img-top" style="width:16rem;height:10rem;" src="{{shop.shop_image.url}}" alt="Card image cap">
-			<div class="card-body">
-				<div class="row">
-					<div class="col-sm-12" style="padding-left:1px; "><h5 style="display:inline;">{{shop.shop_name}}</h5></div>
-					<div class="col-sm-12" style="padding-left:1.5px;"><h6 style="display:inline;">{{shop.shop_description}}</h6></div>
-				</div>
-		  </div>
+		<div class="col-xs-2 col-sm-2 border p-0 m-2">
+			<h3 style="position:absolute;z-index:3; width:100%; height:100px;top:20%;" class="p-3 mx-auto my-auto rounded-0 border text-center text-white font-weight-bold">SHOP<br> CLOSED</h3>
+			<div class="border"  style="width: 100%"><div class="bg-secondary" style="position:absolute; opacity:0.3;width:100%;height:100%;"></div>
+			<img class="p-0" style="width:100%;height:155px;" src="{{shop.shop_image.url}}" alt="Card image cap">
+			<div class="col-sm-12 pt-1 pl-1"><h5 >{{shop.shop_name}}</h5></div>
+			<div class="col-sm-12 pl-1"><h6 style="font-size:10px;" >{{shop.shop_description}}</h6></div>
 		</div>
 	</div>
 		{%endif%}
@@ -59,7 +57,7 @@
 	{% endfor %}
 
 </section>
-{% include 'footer.html' %}
+
  <script type='text/javascript'>
 
  $(document).ready(function() {

@@ -3,39 +3,39 @@
 <div><h2 class="text-center">CART</h2></div>
 {% if ordertable  %}
 {% for order in ordertable %}
-<div class="row mt-2 bg-light">
-    <div class="col-sm-1 " >
-        <img style="width:17px;height:17px; margin-left:-8px;" class="mt-3" src="{{order.menu.item_vegornonveg.image.url}}" alt="Card image cap">
+<div class="row mt-2 bg-light text-dark">
+    <div class="col-sm-1 m-auto" >
+        <img style="width:10px;height:10px;" class="m-auto" src="{{order.menu.item_vegornonveg.image.url}}" alt="Card image cap">
     </div>
-    <div class="col-sm-5 mt-2" style="padding-left:0px; font-size:13px; ">{{order.menu.item_name}}</div>
-    <div class="col-sm-3" style="padding: 0px 0px 10px 0px;" >
-        <div class="row w-100 border mt-2" style="margin-left:0px;">
-            <div class="col-4 border border-right-0" style="padding-left:0px;">
+    <div class="col-sm-5 my-auto p-0" style="font-size:15px; ">{{order.menu.item_name}}</div>
+    <div class="col-sm-3 my-auto p-0 m-0">
+        <div class="row  w-75 my-auto m-0 p-0">
+            <div class="col-3 border border-right-0 p-0 m-0">
                 <form action="/menu/restuartant_view/{{shop.pk}}/" method="post">{% csrf_token%}
                     <input type="hidden"  name="quantity_minus" value="{{order.pk}}">
-                    <button type="submit"  class="btn btn-link "  style="margin-left:0px;padding:0px;width:20px;height:20px;background:none; ">
-                        <img name="minus" style="margin:0px; width:20px height:20px;" src="{% static 'images/icons/minus.svg'%}">
+                    <button type="submit"  class="btn btn-link p-0 "  style="width:20px;height:20px;background:none;">
+                        <img src="https://img.icons8.com/android/15/000000/minus.png" class="p-0 m-0">
                     </button>
                 </form>
             </div>
-            <div class="col-4  mt-1" style="margin-left:0%; padding-left:9px">{{order.order_quantity}}</div>
-            <div class="col-4 border border-left-0" style="padding-left:2px;">
+            <div class="col-3 m-auto p-0 pl-1">{{order.order_quantity}}</div>
+            <div class="col-3 border border-left-0 m-0 p-0" >
                 <form action="/menu/restuartant_view/{{shop.pk}}/" method="post">{% csrf_token%}
                     <input type="hidden" name="quantity_plus" value="{{order.pk}}">
-                    <button type="submit" name="" class="btn btn-link border border-0" value="{{order.pk}}" style="padding:0px; width:25px;height:25px;background: none;">
-                        <img name="add" class="" style="margin:0px; width:25px height:25px;" src="{% static 'images/icons/plus.svg'%}">
+                    <button type="submit" class="btn btn-link p-0 " style="width:20px;height:20px;background: none;">
+                        <img src="https://img.icons8.com/android/12/000000/plus.png" class="pr-2 m-0">
                     </button>
                 </form>
             </div>
         </div>
     </div>
-    <div class="col-sm mt-2 " style="width:20px; padding-left:6px;">₹{{order.order_price}}</div>
+    <div class="col-sm mt-2 " style="width:20px; padding-left:6px;"><i class="fa fa-rupee" style="font-size:12px"></i> {{order.order_price}}</div>
 </div>
 {% endfor %}
 
 <div class="row pl-2 mt-3">
     <div class="col-sm-6"><h4>Subtotal</h4></div>
-    <div class="col-sm-6"><h4>₹{{subtotal}}</h4></div>
+    <div class="col-sm-6"><h4><i class="fa fa-rupee" style="font-size:14px"></i> {{subtotal}}</h4></div>
 </div>
 {% else %}
 <div class="container border w-50 mx-auto text-center">

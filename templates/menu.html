@@ -3,53 +3,53 @@
 #hoverbar{
 visibility:hidden;
 position:absolute;
-margin-top:0px;
-width:22rem;
-opacity:0.9;
+top:0px;
+width:197px;
+height:150px;
+opacity:0.7;
 }
 
 #imagefh:hover + #hoverbar{
 	visibility:visible;
 
-}
 
-.card:hover{
-	border: 1px solid grey;
+}
+#hoverbar:hover{
+visibility:visible;
+
 }
 
 </style>
 {% for list in category %}
-<div class="col-sm-12 " id="{{list.item_food_category}}"><h1> <b>{{list.item_food_category}}</b></h1></div>
-<div class="mt-5 pt-5 pb-5"></div>
+<div class="col-sm-12 bg-light border rounded pt-2 " id="{{list.item_food_category}}"><h3 class="font-weight-light text-uppercase">{{list.item_food_category}}</h3></div>
+<div class="row  py-3">
 	{% for menu in menus %}
 	{% if menu.item_food_category == list.item_food_category %}
-	<div class="col-sm-4  border border-0">
-		<div class="card mx-auto  mt-3 mb-3" id="card" style="width: 22rem; ">
-		<img class="card-img-top" id="imagefh" style="width:21.8rem;height:15rem;" src="{{menu.item_image.url}}" alt="Card image cap">
-		<div class="bg-dark p-3" id="hoverbar"><h6 class="text-light">{{menu.item_desc}}</h6></div>
-		<div class="card-body">
-			<div class="row">
-				<div class="col-sm-1 ml-1" style="height:25px; padding-left:0px; padding-top:0px;  "><img style="width:25px;height:25px;" src="{{menu.item_vegornonveg.image.url}}" alt="Card image cap"></div>
-				<div class="col-sm-10 " style="padding-left:10px; "><h4 style="display:inline;">{{menu.item_name}}</h4></div>
+	<div class="col-sm-3 mx-4 border my-2 p-0 ">
+		<img class="card-img-top" id="imagefh" style="width:100%;height:150px;" src="{{menu.item_image.url}}" alt="Card image cap">
+		<div class="bg-dark p-3" id="hoverbar"><h6 class="text-light text-justify">{{menu.item_desc}}</h6></div>
+		<div class="card-body p-1">
+			<div class="row bg-light w-100 mx-auto">
+				<div class="col-sm-1 pt-1 pl-1" style="height:25px;"><img style="width:12px;height:12px;" src="{{menu.item_vegornonveg.image.url}}" alt="Card image cap"></div>
+				<div class="col-sm-10 pl-1"><h6 class="text-uppercase font-weight-light" style="display:inline; font-size:14px;">{{menu.item_name}}</h6></div>
 			</div>
-
-			<div class="col-sm-12" style="padding-left:17px;"><h6 style="display:inline;">{{menu.item_food_category}}</h6></div>
-			<div class="row">
-				<div class="col-sm-8 pt-2" style="padding-left:33px;">₹<h6 style="display:inline;">{{menu.item_price}}</h6></div>
-				<div class="col-sm-4 ">
+			<div class="col-sm-12 pl-4 mb-1"><h6 class="font-weight-lighter" style="display:inline; font-size:14px;"> {{menu.item_food_category}}</h6></div>
+			<div class="row w-100 mx-auto bg-warning rounded p-1">
+				<div class="col-sm-6 m-auto pl-2"><i class="fa fa-rupee text-dark" style="font-size:14px"></i><h6 style="display:inline;"> {{menu.item_price}}</h6></div>
+				<div class="col-sm-4 m-0 p-0">
 					<form method="post" action="/menu/restuartant_view/{{shop.pk}}/">{% csrf_token %}
 						<input type="hidden" name="menu_item_pk" value="{{menu.pk}}" >
-						<button type="submit" class="btn-sm btn-primary border">ADD</button>
+						<button type="submit" class="btn-sm btn-outline-light border rounded px-3">ADD</button>
 					</form>
 				</div>
 			</div>
 
-	  </div>
-	</div>
+	 	 </div>
 	</div>
 	{% endif %}
-
 	{% endfor %}
+	</div>
 {% empty %}
 		<p class="mx-auto text-center">Sorry, no selection to display.</p>
 {% endfor %}
+

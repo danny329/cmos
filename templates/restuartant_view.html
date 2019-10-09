@@ -2,10 +2,6 @@
 {% static "images" as baseUrl %}
 {% include 'com.html' %}
 {% include 'navbar.html' %}
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <style>
 div::-webkit-scrollbar {
   width: 1px;
@@ -17,50 +13,17 @@ div::-webkit-scrollbar-thumb {
   opacity : 0.0;
 }
 
-.cover-bar1 {
-  position: absolute;
-  background: #fff;;
-  height: 100%;
-  top: 0;
-  right: 0;
-  width: 1px;
-  -webkit-transition: all .5s;
-  opacity: 1;
-}
-
-.cover-bar2 {
-  position: absolute;
-  background: #fff;
-  height: 100%;
-  top: 0;
-  right: 338;
-  width: 1px;
-  -webkit-transition: all .5s;
-  opacity: 1;
-}
-
-.cover-bar3 {
-  position: absolute;
-  background: #000;
-  height: 100%;
-  top: 0;
-  left: 224;
-  width: 1px;
-  -webkit-transition: all .5s;
-  opacity: 1;
-}
-
 </style>
-</head>
-<div class="jumbotron mx-auto bg-light" id="navbar" style="padding:15px;">
 
-    <div class="row">
-        <div class="col-sm-3  ">
-            <img src="{{shop.shop_image.url}}"  id="image" alt="img content" style="width:16rem;height:10rem;padding-left:50px;">
+<div class="jumbotron mx-auto bg-light sticky-top p-0" id="navbar" style="padding:15px;z-index:-1;">
+
+    <div class="row container pt-2 ">
+        <div class="col-sm-1 pl-5">
+            <img src="{{shop.shop_image.url}}"  id="image" alt="img content" style="width:70px;height:70px;">
         </div>
-        <div class="col-sm-9 " >
-            <h2>{{shop.shop_name}}</h2>
-            <h6>{{shop.shop_description}}</h6>
+        <div class="col-sm-8 pl-5" >
+            <h3>{{shop.shop_name}}</h3>
+            <h6 class="font-weight-lighter">{{shop.shop_description}}</h6>
         </div>
 
     </div>
@@ -81,8 +44,8 @@ div::-webkit-scrollbar-thumb {
     </form>
     {% endif %}
     </div>
-<div class="cover-bar1"></div>
-<div class="cover-bar2"></div>
-<div class="cover-bar3"></div>
+<!--<div class="cover-bar1"></div>-->
+<!--<div class="cover-bar2"></div>-->
+<!--<div class="cover-bar3"></div>-->
 </div>
 

@@ -37,9 +37,9 @@
           <div class="tab-pane fade {{listmenulist}}">
             <div class="row">
               <div class="col-6 mx-auto">
-                <div class="list-group list-group-horizontal text-center" id="list-tab-menu" role="tablist">
-                  <a class="list-group-item list-group-item-action {{listviewmenulist}}" href="/shopview/listmenulist/listviewmenulist/{{shopobj.pk}}/" >VIEW MENU</a>
-                  <a class="list-group-item list-group-item-action {{listaddmenulist}}" href="/shopview/listmenulist/listaddmenulist/{{shopobj.pk}}/">ADD MENU</a>
+                <div class="row text-center" id="list-tab-menu" role="tablist" >
+                  <a class="col-sm-6 list-group-item list-group-item-action {{listviewmenulist}}" style="display:inline;" href="/shopview/listmenulist/listviewmenulist/{{shopobj.pk}}/" >VIEW MENU</a>
+                  <a class="col-sm-6 list-group-item list-group-item-action {{listaddmenulist}}" style="display:inline;" href="/shopview/listmenulist/listaddmenulist/{{shopobj.pk}}/">ADD MENU</a>
                 </div>
               </div>
               <div class="col-12">
@@ -90,9 +90,9 @@
           <div class="tab-pane fade {{listorderslist}}" >
                <div class="row">
               <div class="col-6 mx-auto">
-                <div class="list-group list-group-horizontal  text-center" id="list-tab-order" role="tablist">
-                  <a class="list-group-item list-group-item-action {{listvieworderslist}}" href="/shopview/listorderslist/listvieworderslist/{{shopobj.pk}}/">VIEW ORDERS</a>
-                  <a class="list-group-item list-group-item-action {{listorderhistorylist}}" href="/shopview/listorderslist/listorderhistorylist/{{shopobj.pk}}/">ALL ORDERS</a>
+                <div class="row  text-center" id="list-tab-order" role="tablist">
+                  <a class="col-sm-6 list-group-item list-group-item-action {{listvieworderslist}}" href="/shopview/listorderslist/listvieworderslist/{{shopobj.pk}}/">VIEW ORDERS</a>
+                  <a class="col-sm-6 list-group-item list-group-item-action {{listorderhistorylist}}" href="/shopview/listorderslist/listorderhistorylist/{{shopobj.pk}}/">ALL ORDERS</a>
                 </div>
               </div>
               <div class="col-12">
@@ -178,9 +178,9 @@
           <div class="tab-pane fade {{listcategorylist}}">
               <div class="row">
               <div class="col-6 mx-auto">
-                <div class="list-group list-group-horizontal  text-center " id="list-tab-category" role="tablist">
-                  <a class="list-group-item list-group-item-action {{listviewcategorylist}}" href="/shopview/listcategorylist/listviewcategorylist/{{shopobj.pk}}/">VIEW CATEGORY</a>
-                  <a class="list-group-item list-group-item-action {{listaddcategorylist}}" href="/shopview/listcategorylist/listaddcategorylist/{{shopobj.pk}}/">ADD CATEGORY</a>
+                <div class="row text-center " id="list-tab-category" role="tablist">
+                  <a class="col-sm-6 list-group-item list-group-item-action {{listviewcategorylist}}" href="/shopview/listcategorylist/listviewcategorylist/{{shopobj.pk}}/">VIEW CATEGORY</a>
+                  <a class="col-sm-6 list-group-item list-group-item-action {{listaddcategorylist}}" href="/shopview/listcategorylist/listaddcategorylist/{{shopobj.pk}}/">ADD CATEGORY</a>
                 </div>
               </div>
               <div class="col-12">
@@ -217,11 +217,11 @@
                             <div class="col-sm-12">{{ shopdetails.shop_description|as_crispy_field  }}</div>
                             <div class="col-sm-12">{{ shopdetails.shop_image|as_crispy_field  }}</div>
                         </div>
-                        <input type="submit" class="save btn btn-sm col-sm-12 btn-success"/>
+                        <input type="submit" class="save btn btn-sm col-sm-3 btn-success"/>
                     </form>
                     <form method="POST" action="/shopview/listshopsettingslist/listshopsettings/{{shopobj.pk}}/">{% csrf_token %}
                         <input type="hidden" name="returnshop" value="{{shopobj.pk}}">
-                        <input type="submit" class="btn btn-sm bg-danger w-100 text-white" value="RETURN SHOP">
+                        <input type="submit" class="btn btn-sm bg-danger col-sm-3 text-white" value="RETURN SHOP" style="margin-left:330px;margin-top:-47px;">
                     </form>
                 </div>
           </div>

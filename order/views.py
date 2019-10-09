@@ -2,7 +2,9 @@ from django.contrib.auth.models import User
 from django.shortcuts import render,redirect
 from users.models import Menu, Shop, FoodCategory, Order, OrderHistory
 from django.utils import timezone
+from datetime import timedelta,datetime
 import sweetify
+
 
 
 # Create your views here.
@@ -101,6 +103,7 @@ def orders(request):
                     sweetify.success(request,' item has been cancelled')
             orderhistory = OrderHistory.objects.filter(customer=request.user).order_by('-pk')
             ordertracking = Order.objects.filter(customer=request.user).order_by('menu__item_shop__pk', '-pk')
+
             context = {'ordertracking': ordertracking, 'orderhistory': orderhistory}
             return render(request, 'orders.html', context)
         else:
