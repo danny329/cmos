@@ -5,8 +5,12 @@
 
 <div class="container  mt-3 mx-auto p-0">
      {% for orders in orderhistory %}
-    <div class="mx-auto bg-light  border mt-2 p-2"><p class="btn btn-primary p-1 text-center text-white font-weight-bold">ODNO{{orders.pk}}</p></div>
-        {% for item in orders.order.all %}
+    <div class="mx-auto bg-light  border mt-2 p-2"><p class="btn btn-primary p-1 text-center text-white font-weight-bold">ODNO{{orders.pk}}</p>
+        <form action="/order/html_to_pdf_view/{{orders.pk}}/" class="p-0 float-right" style="display:inline;" method="post">{%csrf_token%}
+            <input type="submit" value="Invoice ODNO{{orders.pk}}" class="btn btn-secondary p-1 text-center text-white font-weight-bold">
+        </form>
+        </div>
+    {% for item in orders.order.all %}
             {% for items in ordertracking%}
                 {% if items.pk == item.pk %}
                     <div class="col-sm-12  mx-auto p-0">

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'sweetify',
     'django_crontab',
+    'easy_pdf',
 ]
 
 

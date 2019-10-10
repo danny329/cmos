@@ -4,8 +4,26 @@ from users.models import Menu, Shop, FoodCategory, Order, OrderHistory
 from django.utils import timezone
 from datetime import timedelta,datetime
 import sweetify
+from django.http import HttpResponse
+from django.views.generic import View
+
+from .utils import render_to_pdf #created in step 4
 
 
+def html_to_pdf_view(request, id, *args, **kwargs):
+    orderhistory = OrderHistory.objects.get(pk=id)
+    s=0
+    for order in orderhistory.order.all():
+        s  += order.order_price
+    user = request.user
+    context = {
+        'today': datetime.now(),
+        'orderhistory': orderhistory,
+        'user':  user,
+        'total': s
+    }
+    pdf = render_to_pdf('customer_pdf.html', context)
+    return HttpResponse(pdf, content_type='application/pdf')
 
 # Create your views here.
 def customer_payment(request):
@@ -27,12 +45,11 @@ def customer_payment(request):
                 confirmed_order = OrderHistory.objects.create(customer = request.user,purchasedate = timezone.now(),price = total)
                 for orderitem in orderlist:
                     orderitem.order_status = 'ORDERED'
-                    print(orderitem.order_status)
                     orderitem.save()
-
                     confirmed_order.order.add(orderitem)
                 confirmed_order.save()
-                return redirect('/order/orders/')
+                return request('/order/orders/')
+
             orderlist = Order.objects.filter(order_status='CART',
                                              customer=request.user).order_by('menu__item_shop__pk', 'pk')
             total = 0
@@ -110,3 +127,5 @@ def orders(request):
             return redirect('/')
     except Exception as e:
         print(e)
+
+

@@ -28,6 +28,8 @@ class ExportCsvMixin:
 
 class ShopPaymentAdmin(admin.ModelAdmin, ExportCsvMixin):
     list_display = ['vendor', 'purchasedate', 'shop']
+
+
     # list_editable = ['status']
     # search_fields = ['user', 'cloth_menu']
     list_filter = ['vendor', 'shop', 'purchasedate']
@@ -73,7 +75,11 @@ class ShopAdmin(admin.ModelAdmin, ExportCsvMixin):
 
     export_as_csv.short_description = "Export Selected"
 
+class UserExtends(admin.ModelAdmin):
+    list_display = ['userref', 'gender', 'acceptance']
+    list_editable = ['acceptance']
 
 admin.site.register(Shop, ShopAdmin)
 admin.site.register(VegOrNonVeg)
 admin.site.register(ShopPayment, ShopPaymentAdmin)
+admin.site.register(UserExtend, UserExtends)
