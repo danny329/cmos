@@ -30,33 +30,28 @@ def customer_payment(request):
     try:
         if request.user.is_authenticated:
             if request.method == 'POST':
-                print(request.POST['price'])
+                #check if price is not mentioned
                 if float(request.POST['price']) < 1:
-                    print('hehe')
                     return redirect('/order/checkout/')
-
+                #to do if valid payment details
                 orderlist = Order.objects.filter(order_status='CART',
                                                  customer=request.user).order_by('menu__item_shop__pk', 'pk')
 
-                total = 0
-                for orderitem in orderlist:
-                    total = total + orderitem.order_price
-
-                confirmed_order = OrderHistory.objects.create(customer = request.user,purchasedate = timezone.now(),price = total)
+                confirmed_order = OrderHistory.objects.create(customer = request.user,purchasedate = timezone.now(),price = float(request.POST['price']))
                 for orderitem in orderlist:
                     orderitem.order_status = 'ORDERED'
                     orderitem.save()
                     confirmed_order.order.add(orderitem)
                 confirmed_order.save()
-                return request('/order/orders/')
-
-            orderlist = Order.objects.filter(order_status='CART',
-                                             customer=request.user).order_by('menu__item_shop__pk', 'pk')
-            total = 0
-            for orderitem in orderlist:
-                total = total + orderitem.order_price
-            context={'total':total}
-            return render(request, 'customer_payment.html', context)
+                return redirect('/order/orders/')
+            else:
+                orderlist = Order.objects.filter(order_status='CART',
+                                                 customer=request.user).order_by('menu__item_shop__pk', 'pk')
+                total = 0
+                for orderitem in orderlist:
+                    total = total + orderitem.order_price
+                context={'total':total}
+                return render(request, 'customer_payment.html', context)
         else:
             return redirect('/')
     except Exception as e:

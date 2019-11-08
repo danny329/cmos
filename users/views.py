@@ -20,9 +20,11 @@ def login(request):
                 auth.login(request, user)
                 usergroup = Group.objects.get(name='vendor')
                 if request.user.groups.filter(name=usergroup).exists():
+                    request.session['group_value'] = 'vendor'
                     sweetify.success(request, 'Log in Successful! \n hello, ' + str(request.user))
                     return redirect('/vendor_home/')
                 else:
+                    request.session['group_value'] = 'customer'
                     sweetify.success(request, 'Log in Successful! \n hello, ' + str(request.user))
                     return redirect('/')
             else:

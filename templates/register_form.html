@@ -27,7 +27,7 @@
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="name"><img src="https://img.icons8.com/ios-glyphs/20/000000/user--v1.png"></label>
-                                <input type="text" name="fullname" id="name" placeholder="Full Name" required/>
+                                <input type="text" name="fullname" id="name" pattern="[A-Za-z]|[A-Za-z][A-Za-z\s]*[A-Za-z]$" placeholder="Full Name" required/>
                             </div>
                             <div class="form-group">
                                 <label for="username"><img src="https://img.icons8.com/material-outlined/20/000000/user--v1.png"></label>

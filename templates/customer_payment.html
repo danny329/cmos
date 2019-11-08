@@ -11,16 +11,15 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/payment_styles.css'%}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/payment_demo.css'%}">
 </head>
 
-
- <div class="container w-50 border text-center bg-light mx-auto pl-2 pr-2">
-                <h5 class="font-weight-bold">PURCHASE DETAILS</h5>
-                <h6 class="col-sm-6 font-weight-bold">PRICE : Rs. {{total}} </h6>
-            </div>
-    <div class="container-fluid" style="margin-top:-95px;">
-        <div class="creditCardForm w-75">
+<section class="container p-sm-5">
+    <div class="container w-100 border text-center bg-light mx-auto pl-2 pr-2">
+        <h5 class="font-weight-bold">PURCHASE DETAILS</h5>
+        <h6 class="col-sm font-weight-bold">PRICE : Rs. {{total}} </h6>
+ </div>
+    <div class="container w-100 mx-auto">
+        <div class="creditCardForm m-1 p-0 border">
             <div class="heading">
                 <h1>Confirm Purchase</h1>
             </div>
@@ -72,7 +71,7 @@
                     </div>
                     <div class="form-group" id="pay-now">
 
-                        <button type="submit" class="btn  btn-sm" id="confirm-purchase">Confirm</button>
+                        <button type="submit" class="btn  btn-sm btn-primary" id="confirm-purchase">Confirm</button>
                     </div>
                 </form>
             </div>
@@ -108,6 +107,8 @@
             </div>
         </div>
     </div>
+</section>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <script src="{% static 'js/jquery.payform.min.js'%}" charset="utf-8"></script>

@@ -15,28 +15,26 @@ div::-webkit-scrollbar-thumb {
 
 </style>
 
-<div class="jumbotron mx-auto bg-light sticky-top p-0" id="navbar" style="padding:15px;z-index:-1;">
-
-    <div class="row container pt-2 ">
-        <div class="col-sm-1 pl-5">
+<div class="jumbotron mx-auto bg-light p-1 m-0 mb-1" id="navbar" style="z-index:-1;">
+    <div class="row container ">
+        <div class="col-sm-1 col-3 m-auto ">
             <img src="{{shop.shop_image.url}}"  id="image" alt="img content" style="width:70px;height:70px;">
         </div>
-        <div class="col-sm-8 pl-5" >
+        <div class="col-sm-8 col-9 mr-auto" >
             <h3>{{shop.shop_name}}</h3>
             <h6 class="font-weight-lighter">{{shop.shop_description}}</h6>
         </div>
-
     </div>
 </div>
 <div class="row  w-100 mx-auto mb-3 " >
-    <div class="col-sm-2 border-right" style="position:relative; height:450px; overflow-y:scroll;">
+    <div class="col-lg-2 border-right" style="position:relative; height:20vh; overflow-y:scroll;">
     {% include 'categorylist.html' %}
     </div>
-    <div class="col-sm-7 container2"  style="position:relative; height:450px; overflow-y:scroll;  ">
+    <div class="col-lg-7 w-100"  style="position:relative; height: 100vh; overflow-y:scroll; overflow-x:hidden;  ">
     {% include 'menu.html' %}
 
     </div>
-    <div class="col-sm-3 mx-auto" style="position:relative; height:450px; overflow-y:scroll; ">
+    <div class="col-lg-3 container mx-auto" style="position:relative; height:40vh; overflow-y:scroll; ">
     {% include 'minicart.html' %}
     {% if ordertable  %}
     <form action="/order/checkout/" method="post">{% csrf_token %}
@@ -44,8 +42,6 @@ div::-webkit-scrollbar-thumb {
     </form>
     {% endif %}
     </div>
-<!--<div class="cover-bar1"></div>-->
-<!--<div class="cover-bar2"></div>-->
-<!--<div class="cover-bar3"></div>-->
+
 </div>
 

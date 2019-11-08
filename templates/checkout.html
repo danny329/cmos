@@ -11,17 +11,17 @@
     {% for order in ordertable %}
         {% if order.menu.item_shop.pk == shop_in.menu.item_shop.pk %}
             <div class="row mt-2 bg-light text-dark">
-    <div class="col-sm-1 " >
+    <div class="col-1 " >
         <img style="width:10px;height:10px; margin-left:-8px;" class="mt-3" src="{{order.menu.item_vegornonveg.image.url}}" alt="Card image cap">
     </div>
-    <div class="col-sm-5 mt-2 p-0" style=" font-size:14px; ">{{order.menu.item_name}}</div>
-    <div class="col-sm-3" style="padding: 0px 0px 10px 0px;" >
+    <div class="col-5 mt-2 p-0" style=" font-size:14px; ">{{order.menu.item_name}}</div>
+    <div class="col-3" style="padding: 0px 0px 10px 0px;" >
         <div class="row w-100 mt-2" style="margin-left:0px;">
             <div class="col-3 border border-right-0" style="padding-left:0px;">
                 <form action="/order/checkout/" method="post">{% csrf_token%}
                     <input type="hidden"  name="quantity_minus" value="{{order.pk}}">
                     <button type="submit"  class="btn btn-link "  style="margin-left:0px;padding:0px;width:20px;height:20px;background:none; ">
-                        <img name="minus" style="margin:0px; width:20px height:20px;" src="{% static 'images/icons/minus.svg'%}">
+                        <img name="minus" style="margin:0px; width:20px; height:20px;" src="{% static 'images/icons/minus.svg'%}">
                     </button>
                 </form>
             </div>
@@ -30,16 +30,16 @@
                 <form action="/order/checkout/" method="post">{% csrf_token%}
                     <input type="hidden" name="quantity_plus" value="{{order.pk}}">
                     <button type="submit" name="" class="btn btn-link border border-0" value="{{order.pk}}" style="padding:0px; width:25px;height:25px;background: none;">
-                        <img name="add" class="" style="margin:0px; width:25px height:25px;" src="{% static 'images/icons/plus.svg'%}">
+                        <img name="add" class="" style="margin:0px; width:25px; height:25px;" src="{% static 'images/icons/plus.svg'%}">
                     </button>
                 </form>
             </div>
         </div>
     </div>
-    <div class="col-sm-2 mt-2 p-auto " style="width:20px;"><i class="fa fa-rupee" style="font-size:11px;display:inline;"></i> {{order.order_price}}</div>
-    <form action="/order/checkout/" class="col-sm-1 p-0" method="post">{% csrf_token %}
+    <div class="col-2 mt-2 p-1 " style="width:20px;"><i class="fa fa-rupee" style="font-size:11px;display:inline;"></i> {{order.order_price}}</div>
+    <form action="/order/checkout/" class="col-1 p-0" method="post">{% csrf_token %}
         <input type="hidden"  name="deleteitem" value="{{order.pk}}">
-        <button class="btn btn-link" type="submit" style="background:none;" ><svg class=" mt-1"  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"><path d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z"/></svg></button>
+        <button class="btn btn-link p-1" type="submit" style="background:none;" ><svg class=" mt-1"  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"><path d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z"/></svg></button>
     </form>
 
 </div>
@@ -48,8 +48,8 @@
 {% endfor %}
 
 <div class="row pl-2 mt-3">
-    <div class="col-sm-6"><h4>Grand Total</h4></div>
-    <div class="col-sm-6"><h4><i class="fa fa-rupee" style="font-size:15px"></i> {{grandtotal}}</h4></div>
+    <div class="col-9"><h4>Grand Total</h4></div>
+    <div class="col-3 text-left p-0"><h4><i class="fa fa-rupee" style="font-size:15px"></i> {{grandtotal}}</h4></div>
 </div>
         <a class="btn btn-primary mx-auto w-100" href="/order/customer_payment/">
             <h4 style="color:#fff;" class="mt-2">CONFIRM ORDER</h4>

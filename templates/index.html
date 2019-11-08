@@ -3,7 +3,12 @@
 {% static "images" as baseUrl %}
 {% block content %}
 {% include 'com.html' %}
-{% include 'navbar.html' %}
+{% if request.session.group_value == 'vendor' %}
+	{% include 'navbar_vendor.html' %}
+{% else %}
+	{% include 'navbar.html' %}
+{% endif %}
+
 	<!-- Home -->
 
 	<div class="home">

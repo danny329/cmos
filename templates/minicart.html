@@ -3,12 +3,12 @@
 <div><h2 class="text-center">CART</h2></div>
 {% if ordertable  %}
 {% for order in ordertable %}
-<div class="row mt-2 bg-light text-dark">
-    <div class="col-sm-1 m-auto" >
-        <img style="width:10px;height:10px;" class="m-auto" src="{{order.menu.item_vegornonveg.image.url}}" alt="Card image cap">
+<div class="row border w-100 mx-auto bg-light text-dark">
+    <div class="col-1 m-0 p-0 py-2 text-center align-middle" >
+        <img style="width:10px;height:10px;" src="{{order.menu.item_vegornonveg.image.url}}" alt="Card image cap">
     </div>
-    <div class="col-sm-5 my-auto p-0" style="font-size:15px; ">{{order.menu.item_name}}</div>
-    <div class="col-sm-3 my-auto p-0 m-0">
+    <div class="col-5 my-auto p-0" style="font-size:15px; ">{{order.menu.item_name}}</div>
+    <div class="col-3 my-auto p-0 m-0">
         <div class="row  w-75 my-auto m-0 p-0">
             <div class="col-3 border border-right-0 p-0 m-0">
                 <form action="/menu/restuartant_view/{{shop.pk}}/" method="post">{% csrf_token%}
@@ -29,13 +29,13 @@
             </div>
         </div>
     </div>
-    <div class="col-sm mt-2 " style="width:20px; padding-left:6px;"><i class="fa fa-rupee" style="font-size:12px"></i> {{order.order_price}}</div>
+    <div class="col-3 mt-2 p-0" ><i class="fa fa-rupee" style="font-size:12px"></i> {{order.order_price}}</div>
 </div>
 {% endfor %}
 
-<div class="row pl-2 mt-3">
-    <div class="col-sm-6"><h4>Subtotal</h4></div>
-    <div class="col-sm-6"><h4><i class="fa fa-rupee" style="font-size:14px"></i> {{subtotal}}</h4></div>
+<div class="row mt-3">
+    <div class="col-8"><h4>Subtotal</h4></div>
+    <div class="col-4 "><h4><i class="fa fa-rupee" style="font-size:14px"></i> {{subtotal}}</h4></div>
 </div>
 {% else %}
 <div class="container border w-50 mx-auto text-center">
