@@ -87,10 +87,11 @@ WSGI_APPLICATION = 'cmos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cmostest1',
+        'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'danielpaul',
-        'HOST': 'localhost',
+        'HOST': 'cmosdb',
+        'PORT': 5432
 
     }
 }

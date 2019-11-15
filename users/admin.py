@@ -81,5 +81,6 @@ class UserExtends(admin.ModelAdmin):
 
 admin.site.register(Shop, ShopAdmin)
 admin.site.register(VegOrNonVeg)
+admin.site.register(Group)
 admin.site.register(ShopPayment, ShopPaymentAdmin)
 admin.site.register(UserExtend, UserExtends)
