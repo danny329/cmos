@@ -16,3 +16,6 @@ tinycss2==1.0.2
 WeasyPrint==50
 webencodings==0.5.1
 xhtml2pdf==0.2.3
+djangorestframework==3.9.2
+django-filter==2.2.0
+Markdown==3.1
