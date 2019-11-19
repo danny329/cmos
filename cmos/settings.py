@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'sweetify',
     'django_crontab',
     'easy_pdf',
+    'rest_framework',
 ]
 
 
@@ -87,10 +88,10 @@ WSGI_APPLICATION = 'cmos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'cmostest1',
         'USER': 'postgres',
         'PASSWORD': 'danielpaul',
-        'HOST': 'cmosdb',
+        'HOST': 'localhost',
         'PORT': 5432
 
     }
@@ -150,3 +151,14 @@ SWEETIFY_SWEETALERT_LIBRARY = 'sweetalert2'
 CRONJOBS = [
     ('*/5 * * * *', 'order.cron.CheckOrderStatusCron')
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}

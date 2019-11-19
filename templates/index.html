@@ -1,76 +1,18 @@
-
 {% load static %}
 {% static "images" as baseUrl %}
-{% block content %}
+<!--common files-->
 {% include 'com.html' %}
+
+<!--navbar-->
 {% if request.session.group_value == 'vendor' %}
 	{% include 'navbar_vendor.html' %}
 {% else %}
 	{% include 'navbar.html' %}
 {% endif %}
-
-	<!-- Home -->
-
-	<div class="home">
-		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{% static 'images/home.jpg' %}" data-speed="0.8"></div>
-		<div class="home_container">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<div class="home_content text-center">
-							<div class="home_subtitle page_subtitle">The Venue is</div>
-							<div class="home_title"><h1>An Extraordinery Experience</h1></div>
-							<div class="home_text ml-auto mr-auto">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="scroll_icon"></div>
-	</div>
-
-	<!-- Intro -->
-
-	<div class="intro">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="intro_content">
-						<div class="intro_subtitle page_subtitle">Something new</div>
-						<div class="intro_title"><h2>An Extraordinery Experience</h2></div>
-						<div class="intro_text">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. Ut non justo eleifend, facilisis nibh ut, interdum odio. Suspendisse potenti. Vivamus luctus diam eu neque rutrum, vitae aliquet dolor venenatis. Nulla consequat fringilla massa.</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xl-4 col-md-6 intro_col">
-							<div class="intro_image"><img src="{% static 'images/intro_1.jpg'%}" alt="https://unsplash.com/@quanle2819"></div>
-						</div>
-						<div class="col-xl-4 col-md-6 intro_col">
-							<div class="intro_image"><img src="{% static 'images/intro_2.jpg'%}" alt="https://unsplash.com/@fabmag"></div>
-						</div>
-					</div>
-				</div>	
-			</div>
-		</div>
-	</div>
-
-	<!-- Video -->
-
-	<div class="video_section">
-		<div class="background_image" style="background-image:url(images/video.jpg)"></div>
-		<div class="video_section_content d-flex flex-column align-items-center justify-content-center text-center">
-			<div class="video_section_title">Food for the soul</div>
-			<div class="video_section_icon"><a class="vimeo video_button" href="https://player.vimeo.com/video/99340873?autoplay=1&loop=1&title=0&autopause=0"><i class="fa fa-play" aria-hidden="true"></i></a></div>
-		</div>
-	</div>
+<!--home-->
 
 
-	<!-- Footer -->
-
-{% endblock %}
+<!--footer-->
 {% include 'footer.html' %}
 
 {% load sweetify %}
