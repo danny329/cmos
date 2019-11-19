@@ -9,7 +9,10 @@ from users.models import Order, Shop, Menu, OrderHistory, FoodCategory, ShopPaym
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html')
+    try:
+        return render(request, 'index.html')
+    except Exception as e:
+        print(e)
 
 def shopview(request, part='', subpart='', shopid=0):
     try:
@@ -124,12 +127,6 @@ def shopview(request, part='', subpart='', shopid=0):
                 context['listaddcategorylist'] = 'show active'
 
 
-
-
-
-
-
-
             return render(request, 'shop_view.html', context)
         else:
             return redirect('/')
@@ -137,28 +134,31 @@ def shopview(request, part='', subpart='', shopid=0):
         print(e)
 
 def menuplus(request):
-
-    if request.method == 'POST':
-        addmenu = AddMenus(request.POST, request.FILES)
-        if addmenu.is_valid():
-            addmenu.save()
-            return vendor_home(request)
-    else:
-        addmenu = AddMenus()
-
-    context = {'addmenu': addmenu}
-    return render(request,'menuplus.html', context)
+    try:
+        if request.method == 'POST':
+            addmenu = AddMenus(request.POST, request.FILES)
+            if addmenu.is_valid():
+                addmenu.save()
+                return vendor_home(request)
+        else:
+            addmenu = AddMenus()
+        context = {'addmenu': addmenu}
+        return render(request,'menuplus.html', context)
+    except Exception as e:
+        print(e)
 def vendor_home(request):
-    shop = Shop.objects.filter(vendor=request.user)
-    context = {'shop': shop}
-    if request.method == 'POST':
-        if 'shopobj' in request.POST:
-            shopobj = Shop.objects.get(pk=request.POST['shopobj'])
-            return shopview(request, 'listmenulist', 'listviewmenulist', shopobj.pk)
-    else:
-        print('e')
-    return render(request, 'vendor_home.html', context)
-
+    try:
+        shop = Shop.objects.filter(vendor=request.user)
+        context = {'shop': shop}
+        if request.method == 'POST':
+            if 'shopobj' in request.POST:
+                shopobj = Shop.objects.get(pk=request.POST['shopobj'])
+                return shopview(request, 'listmenulist', 'listviewmenulist', shopobj.pk)
+        else:
+            print('e')
+        return render(request, 'vendor_home.html', context)
+    except Exception as e:
+        print(e)
 
 def payment(request, id=0):
     try:
@@ -182,46 +182,51 @@ def payment(request, id=0):
 
 
 def shopplus(request):
-    shops = Shop.objects.filter(shop_status='AVAILABLE').order_by('pk')
-    print(shops)
-    context = {'shops': shops}
-    if request.method == 'POST':
-        if 'shoppurchase' in request.POST:
-            if UserExtend.objects.get(userref=request.user).acceptance=='DENY':
-                sweetify.error(request, 'Permission Denied! \n contact Adminstration.')
-                return render(request, 'shopplus.html', context)
-            shop = Shop.objects.get(pk=request.POST['shoppurchase'])
-            context = {'shop': shop}
-            return render(request, 'payment.html', context)
-    return render(request, 'shopplus.html', context)
-
+    try:
+        shops = Shop.objects.filter(shop_status='AVAILABLE').order_by('pk')
+        print(shops)
+        context = {'shops': shops}
+        if request.method == 'POST':
+            if 'shoppurchase' in request.POST:
+                if UserExtend.objects.get(userref=request.user).acceptance=='DENY':
+                    sweetify.error(request, 'Permission Denied! \n contact Adminstration.')
+                    return render(request, 'shopplus.html', context)
+                shop = Shop.objects.get(pk=request.POST['shoppurchase'])
+                context = {'shop': shop}
+                return render(request, 'payment.html', context)
+        return render(request, 'shopplus.html', context)
+    except Exception as e:
+        print(e)
 
 
 def foodcategoryplus(request):
+    try:
+        if request.method == 'POST':
+            addfoodcategory = AddFoodCategory(request.POST)
+            if addfoodcategory.is_valid():
+                addfoodcategory.save()
+        else:
+            addfoodcategory = AddFoodCategory()
 
-    if request.method == 'POST':
-        addfoodcategory = AddFoodCategory(request.POST)
-        if addfoodcategory.is_valid():
-            addfoodcategory.save()
-    else:
-        addfoodcategory = AddFoodCategory()
-
-    context = {'addfoodcategory': addfoodcategory}
-    return render(request,'foodcategoryplus.html', context)
-
+        context = {'addfoodcategory': addfoodcategory}
+        return render(request,'foodcategoryplus.html', context)
+    except Exception as e:
+        print(e)
 def vendor_orderlist(request):
-    if request.method == 'POST':
-        if 'orderitem' in request.POST:
-            print(request.POST['orderitem'])
-            order = Order.objects.get(pk=request.POST['orderitem'])
-            order.order_status = 'DELIVERED'
-            order.save()
+    try:
+        if request.method == 'POST':
+            if 'orderitem' in request.POST:
+                print(request.POST['orderitem'])
+                order = Order.objects.get(pk=request.POST['orderitem'])
+                order.order_status = 'DELIVERED'
+                order.save()
 
-    else:
-        print(request.user.pk)
-        shop = Shop.objects.filter(vendor=request.user)
-    orders = Order.objects.filter(order_status='ORDERED',
-                                      menu__item_shop__vendor__pk=request.user.pk)
-    context = {'orders': orders,'shop':shop}
-    return render(request, 'vendor_orderlist.html', context)
-
+        else:
+            print(request.user.pk)
+            shop = Shop.objects.filter(vendor=request.user)
+        orders = Order.objects.filter(order_status='ORDERED',
+                                          menu__item_shop__vendor__pk=request.user.pk)
+        context = {'orders': orders,'shop':shop}
+        return render(request, 'vendor_orderlist.html', context)
+    except Exception as e:
+        print(e)

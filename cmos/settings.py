@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'sweetify',
     'django_crontab',
     'easy_pdf',
+    'rest_framework',
 ]
 
 
@@ -87,10 +88,10 @@ WSGI_APPLICATION = 'cmos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'cmostest1',
         'USER': 'postgres',
         'PASSWORD': 'danielpaul',
-        'HOST': 'cmosdb',
+        'HOST': 'localhost',
         'PORT': 5432
 
     }

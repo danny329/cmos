@@ -59,7 +59,6 @@ def customer_payment(request):
 
 
 def checkout(request):
-
     try:
         if request.user.is_authenticated:
             grandtotal = 0
