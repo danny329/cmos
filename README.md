@@ -1,5 +1,5 @@
 # CMOS
-
+========================
 Canteen Management and Ordering System. Build on Django, a solution for managing canteens and revenue for colleges.
 |build-status| |docs| |framework|
 
