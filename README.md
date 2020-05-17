@@ -1,6 +1,8 @@
 # CMOS
 ========================
 Canteen Management and Ordering System. Build on Django, a solution for managing canteens and revenue for colleges.
+
+
 |build-status| |docs| |framework|
 
 
@@ -29,9 +31,7 @@ Deployment is by direct clone from git. The name of the git repository will be t
 - DJANGO_SECRET_KEY
 - WORKON_HOME (set manually if not using mkvirtualenv)
 
-## Authors
 
- **Daniel Paul** 
 
 .. |build-status| image:: https://img.shields.io/travis/readthedocs/readthedocs.org.svg?style=flat
     :alt: build status
@@ -48,3 +48,6 @@ Deployment is by direct clone from git. The name of the git repository will be t
     :target: https://docs.readthedocs.io/en/latest/?badge=latest
     
     
+## Authors
+
+ **Daniel Paul** 
