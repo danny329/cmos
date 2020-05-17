@@ -1,9 +1,9 @@
 # CMOS
-========================
+
 Canteen Management and Ordering System. Build on Django, a solution for managing canteens and revenue for colleges.
 
 
-|build-status| |docs| |framework|
+|build-status| |docs| 
 
 
 ## Getting Started
@@ -42,10 +42,7 @@ Deployment is by direct clone from git. The name of the git repository will be t
     :alt: Documentation Status
     :scale: 100%
     :target: https://docs.readthedocs.io/en/latest/?badge=latest
-.. |framework| image:: <a href="http://www.djangoproject.com/"><img src="https://www.djangoproject.com/m/img/badges/djangopowered126x54.gif" border="0" alt="Powered by Django." title="Powered by Django." /></a>
-    :alt: Project Framework
-    :scale: 70%
-    :target: https://docs.readthedocs.io/en/latest/?badge=latest
+
     
     
 ## Authors
