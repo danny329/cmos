@@ -3,7 +3,6 @@
 Canteen Management and Ordering System. Build on Django, a solution for managing canteens and revenue for colleges.
 
 
-|build-status| |docs| 
 
 
 ## Getting Started
@@ -31,19 +30,6 @@ Deployment is by direct clone from git. The name of the git repository will be t
 - DJANGO_SECRET_KEY
 - WORKON_HOME (set manually if not using mkvirtualenv)
 
-
-
-.. |build-status| image:: https://img.shields.io/travis/readthedocs/readthedocs.org.svg?style=flat
-    :alt: build status
-    :scale: 100%
-    :target: https://travis-ci.org/readthedocs/readthedocs.org
-
-.. |docs| image:: https://readthedocs.org/projects/docs/badge/?version=latest
-    :alt: Documentation Status
-    :scale: 100%
-    :target: https://docs.readthedocs.io/en/latest/?badge=latest
-
-    
     
 ## Authors
 
